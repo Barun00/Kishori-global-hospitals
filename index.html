@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kishori Global Hospital - Caring For You</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-left">
+        <span><i class="fa-solid fa-phone"></i> Reception: +91 7077772231 / 2232</span>
+        <span><i class="fa-solid fa-truck-medical"></i> Emergency: +91 7077772236</span>
+    </div>
+    <div class="top-right">
+        <span><i class="fa-solid fa-envelope"></i> kishoriglobalhospitals@gmail.com</span>
+    </div>
+</div>
+
+<header class="header">
+    <nav class="navbar">
+        <div class="logo">
+            <div class="logo-box">K</div>
+            <div><h2>KISHORI GLOBAL <span>HOSPITAL</span></h2><p>CARING FOR YOU</p></div>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#">Home</a></li>
+            <li class="dropdown" id="coeDropdown">
+                <a href="javascript:void(0)" onclick="toggleMegaMenu(event)">Centres of Excellence <i class="fa-solid fa-chevron-down" id="coeIcon"></i></a>
+                <div class="mega-menu" id="megaMenu">
+                    <!-- Yaha automatic doctors ayenge - Admin panel se -->
+                </div>
+            </li>
+            <li><a href="#">Doctors</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+        <div class="nav-btns">
+            <a href="tel:+917077772231" class="btn-appointment">Book Appointment</a>
+            <i class="fa-solid fa-bars hamburger" onclick="toggleMenu()"></i>
+        </div>
+    </nav>
+</header>
+
+<!-- Hero Slider -->
+<section class="hero">
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide slide1"><div class="slide-content"><h1>Caring <span>For You</span></h1><p>Kishori Global Hospital, Bargarh</p><a href="#" class="btn-primary">Know More</a></div></div>
+            <div class="swiper-slide slide2"><div class="slide-content"><h1>24/7 Emergency <span>& Critical Care</span></h1><p>Call: +91 7077772236</p><a href="tel:+917077772236" class="btn-primary">Call Emergency</a></div></div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+</section>
+
+<!-- Quick Access - Click to Call -->
+<section class="quick-access">
+    <a href="tel:+917077772231" class="q-box"><i class="fa-solid fa-calendar-check"></i><h4>Book Appointment</h4></a>
+    <a href="tel:+917077772232" class="q-box"><i class="fa-solid fa-user-doctor"></i><h4>Find a Doctor</h4></a>
+    <a href="tel:+917077772237" class="q-box"><i class="fa-solid fa-microscope"></i><h4>Lab Reports</h4></a>
+    <a href="tel:+917077772236" class="q-box"><i class="fa-solid fa-truck-medical"></i><h4>Emergency 7077772236</h4></a>
+</section>
+
+<section class="doctors" style="padding:30px 5%; text-align:center;">
+    <h2 class="section-title">Meet Our Experts</h2>
+    <p style="color:#666">Doctors ko Admin Panel se add karo, yaha automatic show honge</p>
+</section>
+
+<footer class="footer">
+    <div class="footer-grid">
+        <div><h3>KISHORI GLOBAL HOSPITAL</h3><p>At- Sayan, P.O.- Deogaon, Bargarh - 768038</p></div>
+        <div><h4>Contact</h4><p>Reception 1: 7077772231</p><p>Reception 2: 7077772232</p><p>Lab: 7077772237</p></div>
+        <div><h4>Admin</h4><a href="admin.html" style="color:#5ADDF0;">Go to Admin Panel</a></div>
+        <div><iframe src="https://maps.google.com/maps?q=Sayan%20Bargarh%20Odisha&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="120" style="border:0;"></iframe></div>
+    </div>
+    <div class="copyright">© 2025 Kishori Global Hospital</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

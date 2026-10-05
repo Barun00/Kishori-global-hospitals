@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Kishori Global Hospital</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI}
+body{background:#f0f7ff;padding:20px}
+.login-box{max-width:400px;margin:80px auto;background:#fff;padding:30px;border-radius:10px;box-shadow:0 10px 20px rgba(0,0,0,.1);text-align:center}
+.admin-wrap{max-width:1000px;margin:auto;display:none}
+.card{background:#fff;padding:20px;border-radius:10px;box-shadow:0 5px 15px rgba(0,0,0,.1);margin-bottom:20px}
+input,select{width:100%;padding:12px;margin-bottom:12px;border:1px solid #ccc;border-radius:5px}
+button{background:#0F3557;color:#fff;padding:12px 20px;border:none;border-radius:5px;cursor:pointer;width:100%;font-weight:700}
+button:hover{background:#3A9AB5}
+table{width:100%;border-collapse:collapse;margin-top:15px}
+th,td{padding:10px;border:1px solid #eee;text-align:left;font-size:13px}
+th{background:#0F3557;color:#fff}
+.del{color:red;cursor:pointer}
+.grid2{display:grid;grid-template-columns:1fr 1.5fr;gap:20px}
+@media(max-width:800px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="login-box" id="loginBox">
+  <h2 style="color:#0F3557;"><i class="fa-solid fa-lock"></i> Admin Login</h2>
+  <p style="font-size:13px;color:#666;margin:10px 0;">Password: <b>admin123</b></p>
+  <input type="password" id="pass" placeholder="Enter Password">
+  <button onclick="login()">Login</button>
+  <p style="margin-top:15px;"><a href="index.html">← Back to Website</a></p>
+</div>
+
+<div class="admin-wrap" id="adminWrap">
+  <h1 style="color:#0F3557;">Kishori Global Hospital - Admin Panel</h1>
+  <p>Branch ke hisab se Doctor add karo, website par automatic update hoga.</p>
+  
+  <div class="grid2" style="margin-top:20px;">
+    <div class="card">
+      <h3><i class="fa-solid fa-user-doctor"></i> Add New Doctor</h3>
+      <form id="doctorForm" style="margin-top:15px;">
+        <select id="branch" required>
+          <option value="">Select Branch</option>
+          <option>Cardiology</option><option>Neurology</option><option>Gastroenterology</option><option>Orthopedics</option><option>Pulmonology</option><option>Nephrology</option><option>Gynecology</option><option>Oncology</option>
+        </select>
+        <input type="text" id="name" placeholder="Doctor Name - ex: Dr. Ramesh Kumar" required>
+        <input type="text" id="qual" placeholder="Qualification - ex: MBBS, MD" required>
+        <input type="tel" id="phone" placeholder="Phone - ex: +917077772231" required>
+        <button type="submit">+ Add Doctor</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h3>All Doctors Branch Wise</h3>
+      <table>
+        <thead><tr><th>Branch</th><th>Doctor</th><th>Phone</th><th>Action</th></tr></thead>
+        <tbody id="doctorTable"></tbody>
+      </table>
+      <button onclick="clearAll()" style="background:#c0392b;margin-top:15px;">Clear All Doctors</button>
+      <a href="index.html" style="display:block;text-align:center;margin-top:10px;text-decoration:none;background:#3A9AB5;color:#fff;padding:10px;border-radius:5px;">View Website</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function login(){
+  if(document.getElementById("pass").value==="admin123"){
+    localStorage.setItem("kishori_admin","logged");
+    showAdmin();
+  } else alert("Wrong Password! Use admin123");
+}
+function showAdmin(){
+  document.getElementById("loginBox").style.display="none";
+  document.getElementById("adminWrap").style.display="block";
+  renderTable();
+}
+if(localStorage.getItem("kishori_admin")==="logged") showAdmin();
+
+document.getElementById("doctorForm").addEventListener("submit",function(e){
+  e.preventDefault();
+  const doctors = JSON.parse(localStorage.getItem("kishori_doctors")||"[]");
+  doctors.push({
+    id: Date.now(),
+    branch: document.getElementById("branch").value,
+    name: document.getElementById("name").value,
+    qual: document.getElementById("qual").value,
+    phone: document.getElementById("phone").value
+  });
+  localStorage.setItem("kishori_doctors",JSON.stringify(doctors));
+  this.reset();
+  renderTable();
+  alert("Doctor Added Successfully!");
+});
+
+function renderTable(){
+  const doctors = JSON.parse(localStorage.getItem("kishori_doctors")||"[]");
+  const tbody = document.getElementById("doctorTable");
+  tbody.innerHTML = doctors.length===0 ? "<tr><td colspan=4 style=\'text-align:center;color:#999;\'>No doctors added yet</td></tr>" : "";
+  doctors.forEach(d=>{
+    tbody.innerHTML += `<tr><td>${d.branch}</td><td>${d.name}<br><small>${d.qual}</small></td><td><a href="tel:${d.phone}">${d.phone}</a></td><td><span class="del" onclick="deleteDoc(${d.id})"><i class="fa-solid fa-trash"></i> Delete</span></td></tr>`;
+  });
+}
+function deleteDoc(id){
+  if(!confirm("Delete this doctor?")) return;
+  let doctors = JSON.parse(localStorage.getItem("kishori_doctors")||"[]");
+  doctors = doctors.filter(d=>d.id!==id);
+  localStorage.setItem("kishori_doctors",JSON.stringify(doctors));
+  renderTable();
+}
+function clearAll(){
+  if(confirm("Are you sure to delete all doctors?")){
+    localStorage.removeItem("kishori_doctors");
+    renderTable();
+  }
+}
+</script>
+</body>
+</html>
