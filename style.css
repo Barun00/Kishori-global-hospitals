@@ -62,3 +62,48 @@ html,body{overflow-x:hidden}
 @media(max-width:600px){
   .footer-grid{grid-template-columns:1fr !important}
 }
+/* === NAVBAR MOBILE FIX - Book Appointment Overlap === */
+@media(max-width: 900px){
+  .navbar{
+    flex-wrap: nowrap !important;
+    padding: 8px 3% !important;
+    gap: 5px !important;
+  }
+  .logo{
+    flex: 1;
+    min-width: 0;
+  }
+  .logo h2{
+    font-size: 13px !important;
+    white-space: nowrap;
+  }
+  .logo p{
+    font-size: 7px !important;
+    letter-spacing: 1px !important;
+  }
+  .nav-btns{
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-shrink: 0 !important;
+  }
+  .btn-appointment{
+    padding: 7px 10px !important;
+    font-size: 12px !important;
+    line-height: 1;
+  }
+  .hamburger{
+    font-size: 22px !important;
+    flex-shrink: 0;
+  }
+  /* Menu open hone par bich me nahi, pure screen par ayega */
+  .nav-links{
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    width: 100% !important;
+    background: #fff !important;
+    border-top: 1px solid #eee;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+  }
+}
