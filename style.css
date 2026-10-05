@@ -105,3 +105,86 @@
 .doc-link:hover{color:#3A9AB5}
 #coeIcon{transition:.3s}
 .dropdown.active #coeIcon{transform:rotate(180deg)}
+/* === MOBILE FIX 100% === */
+html, body{
+  overflow-x: hidden;
+}
+
+@media(max-width: 900px){
+  /* Top Bar fix */
+  .top-bar{
+    font-size: 11px;
+    padding: 6px 3%;
+    gap: 5px;
+  }
+  
+  /* Navbar fix - Logo aur Button overlap fix */
+  .navbar{
+    padding: 10px 3%;
+    gap: 8px;
+  }
+  .logo h2{
+    font-size: 14px !important;
+  }
+  .logo p{
+    font-size: 8px !important;
+    letter-spacing: 1px !important;
+  }
+  .logo-box{
+    width: 38px !important;
+    height: 38px !important;
+    font-size: 22px !important;
+  }
+  .btn-appointment{
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+    white-space: nowrap;
+  }
+  .nav-btns{
+    gap: 8px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Nav Menu Full Screen */
+  .nav-links{
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 60px !important;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  /* Centre of Excellence - Mobile pe Screen ke Andar */
+  .mega-menu{
+    position: static !important;
+    width: 100% !important;
+    left: 0 !important;
+    display: none !important;
+    grid-template-columns: 1fr !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-top: 2px solid #3A9AB5 !important;
+    padding: 10px !important;
+    margin-top: 10px;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+  .dropdown.active .mega-menu{
+    display: grid !important;
+  }
+  .branch-box{
+    margin: 5px 0 !important;
+  }
+}
+
+@media(max-width: 380px){
+  .btn-appointment{
+    padding: 6px 8px !important;
+    font-size: 11px !important;
+  }
+  .logo h2{
+    font-size: 12px !important;
+  }
+}
