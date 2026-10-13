@@ -3,106 +3,151 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kishori Global Hospital - Caring For You</title>
-<link rel="stylesheet" href="style.css">
+<title>Kishori Global Hospital - Sayan, Baragada, Odisha</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family: \'Inter\', sans-serif;}
+body{background:#fff;color:#0F3557;}
+a{text-decoration:none;color:inherit}
+/* TOP BAR */
+.top-bar{background:#1a3442;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:10px 6%;font-size:13px;flex-wrap:wrap;gap:10px}
+.top-left{display:flex;align-items:center;gap:15px}
+.opening-badge{border:1px solid #00c8ff;color:#00c8ff;padding:6px 14px;border-radius:20px;display:flex;align-items:center;gap:8px;font-weight:700;font-size:12px}
+.opening-badge span{color:#fff}
+.top-right{display:flex;align-items:center;gap:18px;opacity:0.9}
+.top-right i{color:#00c8ff}
+/* NAVBAR */
+.navbar{display:flex;justify-content:space-between;align-items:center;padding:16px 6%;background:#fff;position:sticky;top:0;z-index:99;border-bottom:1px solid #eef3f8}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-icon{width:44px;height:44px;background:#00d1ff;border-radius:10px 0 10px 0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:22px}
+.logo h2{color:#00b4d8;line-height:1;font-size:19px;letter-spacing:1px}
+.logo p{font-size:10px;color:#8aa0b3;letter-spacing:2px}
+.nav-links{display:flex;align-items:center;gap:22px;font-size:13px;color:#4a6480;font-weight:500}
+.nav-links a:hover{color:#00b4d8}
+.btn-book{background:#00b4f0;color:#fff;padding:10px 18px;border-radius:12px;font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px}
+.emergency{color:#ff2b2b;font-weight:700;display:flex;align-items:center;gap:6px;font-size:13px}
+
+/* SECTION COMMON */
+.dept-section{padding:70px 6%;max-width:1440px;margin:auto}
+.tag{text-align:center;color:#0090c5;font-weight:700;font-size:12px;letter-spacing:1px;display:flex;align-items:center;justify-content:center;gap:6px}
+.title{text-align:center;font-size:36px;font-weight:800;color:#162a47;margin:10px 0}
+.desc{text-align:center;color:#6a8da3;max-width:720px;margin:0 auto 45px;line-height:1.6;font-size:15px}
+
+/* DEPARTMENT GRID */
+.dept-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.dept-card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 30px rgba(15,53,87,0.07);border:1px solid #eef3f8;display:flex;flex-direction:column;transition:0.3s}
+.dept-card:hover{transform:translateY(-4px)}
+.dept-img{height:175px;position:relative;overflow:hidden}
+.dept-img img{width:100%;height:100%;object-fit:cover}
+.dept-img::after{content:"";position:absolute;left:0;right:0;bottom:0;height:75%;background:linear-gradient(to top, rgba(15,53,87,0.85), transparent)}
+.dept-img h3{position:absolute;bottom:12px;left:14px;color:#fff;font-size:16px;z-index:2}
+.dept-body{padding:16px;flex:1;display:flex;flex-direction:column}
+.dept-body > p{font-size:13px;color:#6b8496;line-height:1.6;min-height:60px}
+.key{font-size:11px;color:#a0c0d8;font-weight:700;letter-spacing:0.5px;margin:14px 0 8px}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pills span{background:#f1f8ff;color:#2a5a7a;font-size:11px;padding:5px 9px;border-radius:20px}
+.pills span.more{background:none;color:#00b4d8;font-size:11px}
+.card-foot{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:12px;border-top:1px solid #f0f4f8}
+.card-foot a{font-size:13px}
+.card-foot a:first-child{color:#4a6480}
+.card-foot a:last-child{color:#0090c5;font-weight:700}
+
+/* SERVICES */
+.service-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:35px}
+.service-box i{color:#009688;font-size:18px}
+.label{font-size:11px;color:#00bfa6;font-weight:700;letter-spacing:0.5px;margin-top:12px}
+.service-box h3{font-size:15px;margin-top:6px;color:#162a47}
+.service-box p{font-size:13px;color:#6b8496;line-height:1.6;margin-top:8px}
+.service-foot{margin-top:18px;font-size:11px;color:#00bfa6}
+.service-foot span{color:#cfe8e8;margin-left:8px}
+
+/* CTA */
+.cta{background:linear-gradient(90deg, #0e6e6e, #1a3442);color:#fff;border-radius:18px;padding:24px 32px;display:flex;justify-content:space-between;align-items:center;margin:50px 6%;flex-wrap:wrap;gap:15px}
+.cta h3{font-size:18px}
+.cta p{font-size:13px;opacity:0.85;margin-top:4px}
+.cta button{background:#00e5ff;border:none;padding:12px 22px;border-radius:25px;font-weight:800;cursor:pointer;color:#0F3557}
+.floating{position:fixed;bottom:20px;right:20px;background:#00b4f0;color:#fff;padding:12px 18px;border-radius:30px;font-weight:700;display:flex;align-items:center;gap:10px;box-shadow:0 10px 20px rgba(0,0,0,0.15);z-index:999}
+.floating span{background:#00d1ff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+
+@media(max-width:1100px){.dept-grid{grid-template-columns:repeat(2,1fr)}.service-grid{grid-template-columns:repeat(2,1fr)}.nav-links{display:none}}
+@media(max-width:600px){.dept-grid{grid-template-columns:1fr}.service-grid{grid-template-columns:1fr}.title{font-size:26px}.top-bar{justify-content:center}}
+</style>
 </head>
 <body>
 
 <div class="top-bar">
-    <div class="top-left">
-        <span><i class="fa-solid fa-phone"></i> Reception: +91 7077772231 / 2232</span>
-        <span><i class="fa-solid fa-truck-medical"></i> Emergency: +91 7077772236</span>
-    </div>
-    <div class="top-right">
-        <span><i class="fa-solid fa-envelope"></i> kishoriglobalhospitals@gmail.com</span>
-    </div>
+  <div class="top-left">
+    <div class="opening-badge"><i class="fa-solid fa-k"></i> OPENING SOON &nbsp;|&nbsp; <span>Kishori Global Hospital</span></div>
+    <span><i class="fa-solid fa-location-dot"></i> Sayan, Baragada, Odisha</span>
+  </div>
+  <div class="top-right">
+    <span><i class="fa-regular fa-envelope"></i> kishoriglobalhospital@gmail.com</span>
+    <span><i class="fa-solid fa-phone"></i> 1234567890</span>
+    <span><i class="fa-solid fa-phone"></i> 0123456789</span>
+    <span style="border-left:1px solid #3a5a6b; padding-left:12px"><i class="fa-regular fa-clock"></i> 02:20:09 PM IST</span>
+  </div>
 </div>
 
-<header class="header">
-    <nav class="navbar">
-        <div class="logo">
-            <div class="logo-box">K</div>
-            <div><h2>KISHORI GLOBAL <span>HOSPITAL</span></h2><p>CARING FOR YOU</p></div>
-        </div>
-        <ul class="nav-links" id="navLinks">
-            <li><a href="#">Home</a></li>
-            <li class="dropdown" id="coeDropdown">
-                <a href="javascript:void(0)" onclick="toggleMegaMenu(event)">Centres of Excellence <i class="fa-solid fa-chevron-down" id="coeIcon"></i></a>
-                <div class="mega-menu" id="megaMenu">
-                    <!-- Yaha automatic doctors ayenge - Admin panel se -->
-                </div>
-            </li>
-            <li><a href="#">Doctors</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
-        <div class="nav-btns">
-            <a href="tel:+917077772231" class="btn-appointment">Book Appointment</a>
-            <i class="fa-solid fa-bars hamburger" onclick="toggleMenu()"></i>
-        </div>
-    </nav>
-</header>
+<nav class="navbar">
+  <div class="logo">
+    <div class="logo-icon">K</div>
+    <div><h2>KISHORI<br>GLOBAL</h2><p>HOSPITAL</p></div>
+  </div>
+  <div class="nav-links">
+    <a href="#">Home</a><a href="#">About Us</a><a href="#">Departments</a><a href="#">Doctors</a><a href="#">Services</a><a href="#">Facilities</a><a href="#">Patient Information</a><a href="#">Careers</a><a href="#">News</a><a href="#">Contact</a>
+    <a href="#" class="emergency"><i class="fa-regular fa-heart"></i> Emergency<br>Help</a>
+    <a href="#" class="btn-book"><i class="fa-regular fa-calendar"></i> Book Appointment</a>
+    <i class="fa-regular fa-shield" style="color:#8aa0b3"></i>
+  </div>
+</nav>
 
-<!-- Hero Slider -->
-<section class="hero">
-    <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide slide1"><div class="slide-content"><h1>Caring <span>For You</span></h1><p>Kishori Global Hospital, Bargarh</p><a href="#" class="btn-primary">Know More</a></div></div>
-            <div class="swiper-slide slide2"><div class="slide-content"><h1>24/7 Emergency <span>& Critical Care</span></h1><p>Call: +91 7077772236</p><a href="tel:+917077772236" class="btn-primary">Call Emergency</a></div></div>
-        </div>
-        <div class="swiper-pagination"></div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-    </div>
+<section class="dept-section">
+  <p class="tag"><i class="fa-solid fa-stethoscope"></i> CLINICAL SPECIALITIES</p>
+  <h2 class="title">Our Medical & Surgical Departments</h2>
+  <p class="desc">Kishori Global Hospital is structured with comprehensive clinical departments equipped for accurate diagnosis, expert consultations, and supportive patient recovery.</p>
+  
+  <div class="dept-grid">
+    <!-- 1 Cardiology --><div class="dept-card"><div class="dept-img"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600"><h3>Cardiology</h3></div><div class="dept-body"><p>Comprehensive cardiovascular assessment, preventive heart care, and diagnostic cardiac screening.</p><div class="key">KEY SERVICES:</div><div class="pills"><span>ECG & Echocardiography</span><span>Cardiac Consultation</span><span>Preventive Heart Checkups</span><span class="more">+1 more</span></div><div class="card-foot"><a href="#">View Details <i class="fa-solid fa-chevron-right" style="font-size:10px"></i></a><a href="#">Book OPD <i class="fa-solid fa-arrow-right"></i></a></div></div></div>
+    <!-- 2 Neurology --><div class="dept-card"><div class="dept-img"><img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=600"><h3>Neurology</h3></div><div class="dept-body"><p>Specialized evaluation and management of neurological conditions and brain & nerve health.</p><div class="key">KEY SERVICES:</div><div class="pills"><span>Neurological Assessment</span><span>Headache & Migraine Clinic</span><span>Stroke Care Support</span><span class="more">+1 more</span></div><div class="card-foot"><a href="#">View Details <i class="fa-solid fa-chevron-right" style="font-size:10px"></i></a><a href="#">Book OPD <i class="fa-solid fa-arrow-right"></i></a></div></div></div>
+    <!-- 3 General Medicine --><div class="dept-card"><div class="dept-img"><img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=600"><h3>General Medicine</h3></div><div class="dept-body"><p>Primary care, fever management, chronic disease care, and holistic adult health evaluation.</p><div class="key">KEY SERVICES:</div><div class="pills"><span>OPD Consultations</span><span>Diabetes & Thyroid Management</span><span>Infectious Diseases</span><span class="more">+1 more</span></div><div class="card-foot"><a href="#">View Details <i class="fa-solid fa-chevron-right" style="font-size:10px"></i></a><a href="#">Book OPD <i class="fa-solid fa-arrow-right"></i></a></div></div></div>
+    <!-- 4 General Surgery --><div class="dept-card"><div class="dept-img"><img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600"><h3>General Surgery</h3></div><div class="dept-body"><p>Advanced surgical suites with modern surgical equipment and sterile recovery facilities.</p><div class="key">KEY SERVICES:</div><div class="pills"><span>Minor & Major Surgery</span><span>Laparoscopic Care</span><span>Wound Management</span><span class="more">+1 more</span></div><div class="card-foot"><a href="#">View Details <i class="fa-solid fa-chevron-right" style="font-size:10px"></i></a><a href="#">Book OPD <i class="fa-solid fa-arrow-right"></i></a></div></div></div>
+    <!-- 5 Orthopaedics --><div class="dept-card"><div class="dept-img"><img src="https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=600"><h3>Orthopaedics</h3></div><div class="dept-body"><p>Bone, joint, trauma care, arthritis management, and musculoskeletal rehabilitation.</p><div class="key">KEY SERVICES:</div><div class="pills"><span>Fracture Management</span><span>Joint Pain Clinic</span><span>Spine Assessment</span><span class="more">+1 more</span></div><div class="card-foot"><a href="#">View Details <i class="fa-solid fa-chevron-right" style="font-size:10px"></i></a><a href="#">Book OPD <i class="fa-solid fa-arrow-right"></i></a></div></div></div>
+    <!-- 6 Paediatrics --><div class="dept-card"><div class="dept-img"><img src="https://images.unsplash.com/photo-1485541953902-2afb8b9b47f6?w=600"><h3>Paediatrics</h3></div><div class="dept-body"><p>Dedicated child healthcare, infant wellness monitoring, immunization, and paediatric care.</p><div class="key">KEY SERVICES:</div><div class="pills"><span>Child OPD Consultations</span><span>Immunization & Vaccination</span><span>Growth & Nutrition Tracking</span><span class="more">+1 more</span></div><div class="card-foot"><a href="#">View Details <i class="fa-solid fa-chevron-right" style="font-size:10px"></i></a><a href="#">Book OPD <i class="fa-solid fa-arrow-right"></i></a></div></div></div>
+    <!-- 7 Obs --><div class="dept-card"><div class="dept-img"><img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600"><h3>Obstetrics & Gynaecology</h3></div><div class="dept-body"><p>Comprehensive women\'s healthcare, antenatal care, maternal wellness, and gynaecological services.</p><div class="key">KEY SERVICES:</div><div class="pills"><span>Antenatal Care (ANC)</span><span>Women\'s Wellness Screenings</span><span>Maternity Care</span><span class="more">+1 more</span></div><div class="card-foot"><a href="#">View Details <i class="fa-solid fa-chevron-right" style="font-size:10px"></i></a><a href="#">Book OPD <i class="fa-solid fa-arrow-right"></i></a></div></div></div>
+    <!-- 8 Dermatology --><div class="dept-card"><div class="dept-img"><img src="https://images.unsplash.com/photo-1570172619644-dfd03edfa798?w=600"><h3>Dermatology</h3></div><div class="dept-body"><p>Clinical skin, hair, and nail health care with personalized dermatological evaluations.</p><div class="key">KEY SERVICES:</div><div class="pills"><span>Skin Allergy Treatment</span><span>Acne Management</span><span>Hair & Scalp Care</span><span class="more">+1 more</span></div><div class="card-foot"><a href="#">View Details <i class="fa-solid fa-chevron-right" style="font-size:10px"></i></a><a href="#">Book OPD <i class="fa-solid fa-arrow-right"></i></a></div></div></div>
+    <!-- 9 ENT --><div class="dept-card"><div class="dept-img"><img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=600"><h3>ENT (Ear, Nose, Throat)</h3></div><div class="dept-body"><p>Diagnosis and treatment for disorders of the ear, nose, throat, head, and neck.</p><div class="key">KEY SERVICES:</div><div class="pills"><span>ENT Consultation</span><span>Hearing Assessment</span><span>Sinus Care</span><span class="more">+1 more</span></div><div class="card-foot"><a href="#">View Details <i class="fa-solid fa-chevron-right" style="font-size:10px"></i></a><a href="#">Book OPD <i class="fa-solid fa-arrow-right"></i></a></div></div></div>
+    <!-- 10 Ophthalmology --><div class="dept-card"><div class="dept-img"><img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600"><h3>Ophthalmology</h3></div><div class="dept-body"><p>Vision care, eye examinations, refractive error correction, and ocular health screenings.</p><div class="key">KEY SERVICES:</div><div class="pills"><span>Eye Checkup</span><span>Cataract Screening</span><span>Vision Correction</span><span class="more">+1 more</span></div><div class="card-foot"><a href="#">View Details <i class="fa-solid fa-chevron-right" style="font-size:10px"></i></a><a href="#">Book OPD <i class="fa-solid fa-arrow-right"></i></a></div></div></div>
+    <!-- 11 Radiology --><div class="dept-card"><div class="dept-img"><img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600"><h3>Radiology & Imaging</h3></div><div class="dept-body"><p>Modern diagnostic radiology supporting fast, accurate clinical decision-making.</p><div class="key">KEY SERVICES:</div><div class="pills"><span>Digital X-Ray</span><span>Ultrasound</span><span>CT Scan</span><span class="more">+1 more</span></div><div class="card-foot"><a href="#">View Details <i class="fa-solid fa-chevron-right" style="font-size:10px"></i></a><a href="#">Book OPD <i class="fa-solid fa-arrow-right"></i></a></div></div></div>
+    <!-- 12 Pathology --><div class="dept-card"><div class="dept-img"><img src="https://images.unsplash.com/photo-1579154204601-01588f351e67?w=600"><h3>Pathology & Laboratory</h3></div><div class="dept-body"><p>Fully automated diagnostic lab offering clinical biochemistry, haematology, and microbiology.</p><div class="key">KEY SERVICES:</div><div class="pills"><span>Blood Tests</span><span>Biochemistry</span><span>Microbiology</span><span class="more">+1 more</span></div><div class="card-foot"><a href="#">View Details <i class="fa-solid fa-chevron-right" style="font-size:10px"></i></a><a href="#">Book OPD <i class="fa-solid fa-arrow-right"></i></a></div></div></div>
+    <!-- 13 Emergency --><div class="dept-card"><div class="dept-img"><img src="https://images.unsplash.com/photo-1587745416684-0024d3b38a18?w=600"><h3>Emergency Medicine</h3></div><div class="dept-body"><p>Rapid response trauma and acute critical assessment protocols.</p><div class="key">KEY SERVICES:</div><div class="pills"><span>Acute Triage</span><span>Trauma Resuscitation</span><span>Stabilization Unit</span><span class="more">+1 more</span></div><div class="card-foot"><a href="#">View Details <i class="fa-solid fa-chevron-right" style="font-size:10px"></i></a><a href="#">Book OPD <i class="fa-solid fa-arrow-right"></i></a></div></div></div>
+    <!-- 14 ICU --><div class="dept-card"><div class="dept-img"><img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600"><h3>Critical Care (ICU)</h3></div><div class="dept-body"><p>Intensive monitoring systems, high-dependency units, and round-the-clock intensive medical care.</p><div class="key">KEY SERVICES:</div><div class="pills"><span>Intensive Care Unit (ICU)</span><span>High Dependency Unit (HDU)</span><span>Mechanical Ventilation</span><span class="more">+1 more</span></div><div class="card-foot"><a href="#">View Details <i class="fa-solid fa-chevron-right" style="font-size:10px"></i></a><a href="#">Book OPD <i class="fa-solid fa-arrow-right"></i></a></div></div></div>
+  </div>
 </section>
 
-<!-- Quick Access - Click to Call -->
-<section class="quick-access">
-    <a href="tel:+917077772231" class="q-box"><i class="fa-solid fa-calendar-check"></i><h4>Book Appointment</h4></a>
-    <a href="tel:+917077772232" class="q-box"><i class="fa-solid fa-user-doctor"></i><h4>Find a Doctor</h4></a>
-    <a href="tel:+917077772237" class="q-box"><i class="fa-solid fa-microscope"></i><h4>Lab Reports</h4></a>
-    <a href="tel:+917077772236" class="q-box"><i class="fa-solid fa-truck-medical"></i><h4>Emergency 7077772236</h4></a>
+<section class="dept-section" style="padding-top:20px">
+  <p class="tag"><i class="fa-solid fa-star-of-life"></i> HOSPITAL SERVICES</p>
+  <h2 class="title">Comprehensive Healthcare Services</h2>
+  <p class="desc">From initial outpatient consultations to 24x7 emergency response and computerized diagnostic testing, Kishori Global Hospital provides integrated medical care under one roof.</p>
+  <div class="service-grid">
+    <div class="service-box"><i class="fa-solid fa-wave-square"></i><div class="label">CRITICAL</div><h3>Emergency Care</h3><p>Rapid emergency response team, trauma beds, and round-the-clock acute medical stabilization.</p><div class="service-foot">Kishori Global <span>Planned Launch</span></div></div>
+    <div class="service-box"><i class="fa-solid fa-stethoscope"></i><div class="label">CLINICAL</div><h3>OPD Services</h3><p>Outpatient consultation across multiple specialities with comfortable waiting lounges.</p><div class="service-foot">Kishori Global <span>Planned Launch</span></div></div>
+    <div class="service-box"><i class="fa-solid fa-bed"></i><div class="label">HOSPITALIZATION</div><h3>Inpatient Care</h3><p>Well-appointed general wards, semi-private rooms, and deluxe single rooms with dedicated nursing.</p><div class="service-foot">Kishori Global <span>Planned Launch</span></div></div>
+    <div class="service-box"><i class="fa-solid fa-file-medical"></i><div class="label">DIAGNOSTICS</div><h3>Diagnostic Services</h3><p>Advanced diagnostic infrastructure for fast and accurate clinical reports.</p><div class="service-foot">Kishori Global <span>Planned Launch</span></div></div>
+    <div class="service-box"><i class="fa-solid fa-flask"></i><div class="label">DIAGNOSTICS</div><h3>Laboratory Services</h3><p>Fully automated biochemistry, haematology, pathology, and microbiology testing.</p><div class="service-foot">Kishori Global <span>Planned Launch</span></div></div>
+    <div class="service-box"><i class="fa-solid fa-expand"></i><div class="label">DIAGNOSTICS</div><h3>Radiology & Imaging</h3><p>High-definition digital X-Ray, high-resolution ultrasound, and imaging facilities.</p><div class="service-foot">Kishori Global <span>Planned Launch</span></div></div>
+    <div class="service-box"><i class="fa-solid fa-pills"></i><div class="label">SUPPORT</div><h3>In-House Pharmacy</h3><p>Stocked with genuine prescription medications, surgical supplies, and healthcare essentials.</p><div class="service-foot">Kishori Global <span>Planned Launch</span></div></div>
+    <div class="service-box"><i class="fa-solid fa-heart-pulse"></i><div class="label">WELLNESS</div><h3>Preventive Healthcare</h3><p>Comprehensive health checkup packages tailored for individuals, executives, and senior citizens.</p><div class="service-foot">Kishori Global <span>Planned Launch</span></div></div>
+    <div class="service-box"><i class="fa-solid fa-clipboard-check"></i><div class="label">WELLNESS</div><h3>Health Checkups</h3><p>Structured routine health screening tests to detect risk factors and maintain wellness.</p><div class="service-foot">Kishori Global <span>Planned Launch</span></div></div>
+    <div class="service-box"><i class="fa-solid fa-truck-medical"></i><div class="label">EMERGENCY</div><h3>Ambulance Services</h3><p>Emergency transport with life-support equipment and trained emergency medical technicians.</p><div class="service-foot">Kishori Global <span>Planned Launch</span></div></div>
+  </div>
 </section>
 
-<section class="doctors" style="padding:30px 5%; text-align:center;">
-    <h2 class="section-title">Meet Our Experts</h2>
-    <p style="color:#666">Doctors ko Admin Panel se add karo, yaha automatic show honge</p>
-</section>
+<div class="cta">
+  <div><h3>Need Consultation or General Medical Information?</h3><p>Submit an online appointment request and our care coordination desk will assist you.</p></div>
+  <button>Book Appointment Slot</button>
+</div>
 
-<footer class="footer">
-    <div class="footer-grid">
-        <div class="footer-col">
-            <h3>KISHORI GLOBAL HOSPITAL</h3>
-            <p class="footer-address"><i class="fa-solid fa-location-dot"></i> At- Sayan, P.O.- Deogaon, Bargarh - 768038</p>
-            <p class="footer-email"><i class="fa-solid fa-envelope"></i> kishoriglobalhospitals@gmail.com</p>
-        </div>
+<a href="#" class="floating"><span>K</span> Request Appointment</a>
 
-        <div class="footer-col">
-            <h4>Contact</h4>
-            <a href="tel:+917077772231" class="footer-phone"><i class="fa-solid fa-phone"></i> Reception 1: 7077772231</a>
-            <a href="tel:+917077772232" class="footer-phone"><i class="fa-solid fa-phone"></i> Reception 2: 7077772232</a>
-            <a href="tel:+917077772236" class="footer-phone emergency"><i class="fa-solid fa-truck-medical"></i> Emergency: 7077772236</a>
-            <a href="tel:+917077772237" class="footer-phone"><i class="fa-solid fa-flask"></i> Lab: 7077772237</a>
-        
-        </div>
-
-
-        <div class="footer-col">
-            <h4>Admin</h4>
-            <a href="admin.html" class="admin-link">Go to Admin Panel <i class="fa-solid fa-arrow-right"></i></a>
-            <p style="margin-top:12px; font-size:12px; opacity:0.7;">www.kishoriglobalhospitals.com</p>
-        </div>
-
-        <div class="footer-col">
-            <h4>Location</h4>
-            <iframe src="https://maps.google.com/maps?q=Sayan%20Bargarh%20Odisha&t=&z=13&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
-        </div>
-    </div>
-    <div class="copyright">© 2025 Kishori Global Hospital | Sayan, Bargarh</div>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script src="script.js"></script>
 </body>
 </html>
