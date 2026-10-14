@@ -4,124 +4,112 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kishori Global Hospital - Sayan, Baragada</title>
+<link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
-body{background:#fff;color:#0F3557}
-a{text-decoration:none;color:inherit}
-.top-bar{background:#1a3442;color:#fff;display:flex;justify-content:space-between;padding:10px 6%;font-size:13px;flex-wrap:wrap}
-.navbar{display:flex;justify-content:space-between;align-items:center;padding:14px 6%;background:#fff;position:sticky;top:0;z-index:99;border-bottom:1px solid #eef3f8}
-.logo{display:flex;gap:10px;align-items:center}
-.logo-icon{width:42px;height:42px;background:#00d1ff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;border-radius:10px 0 10px 0}
-.btn-book{background:#00b4f0;color:#fff;padding:10px 16px;border-radius:12px;font-weight:700;border:none;cursor:pointer}
-.tag{text-align:center;color:#00b4d8;font-weight:700;font-size:12px;letter-spacing:1px;margin-top:40px}
-.title{text-align:center;font-size:32px;font-weight:800;color:#162a47;margin:8px 0}
-.desc{text-align:center;color:#6a8da3;max-width:700px;margin:0 auto 40px}
-.dept-section{padding:20px 6%;max-width:1440px;margin:auto}
-.dept-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.dept-card{background:#fff;border-radius:16px;overflow:hidden;border:1px solid #eef3f8;box-shadow:0 8px 25px rgba(0,0,0,0.06);cursor:pointer;transition:0.4s}
-.dept-card:hover{transform:translateY(-8px);box-shadow:0 18px 35px rgba(0,0,0,0.13);border-color:#7de2ff}
-.dept-img{height:165px;position:relative;overflow:hidden}
-.dept-img img{width:100%;height:100%;object-fit:cover;transition:0.5s}
-.dept-card:hover img{transform:scale(1.1)}
-.dept-img::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(15,53,87,0.8),transparent 60%)}
-.dept-img h3{position:absolute;bottom:10px;left:12px;color:#fff;z-index:2;font-size:15px}
-.dept-body{padding:14px}
-.pill{background:#f1f8ff;font-size:11px;padding:4px 8px;border-radius:20px;display:inline-block;margin:3px 3px 0 0}
-.card-foot{display:flex;justify-content:space-between;border-top:1px solid #f0f4f8;margin-top:10px;padding-top:10px;font-size:13px}
-.card-foot b{color:#00b4d8;cursor:pointer}
-.service-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:20px}
-.service-box{background:#fff;border:1px solid #eef3f8;padding:18px;border-radius:14px;transition:0.3s;cursor:pointer}
-.service-box:hover{transform:translateY(-6px);box-shadow:0 12px 25px rgba(0,0,0,0.08);border-color:#a7f3e8}
-.icon{width:38px;height:38px;background:#e0f7f4;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#009688}
-.cta{background:linear-gradient(90deg,#0e6e6e,#1a3442);color:#fff;border-radius:16px;padding:22px 30px;display:flex;justify-content:space-between;align-items:center;margin:40px 6%;flex-wrap:wrap;gap:10px}
-.footer-dark{background:#0d2530;color:#cbd8e0;margin-top:30px}
-.footer-main{padding:40px 6%;display:grid;grid-template-columns:1.6fr 0.9fr 0.9fr 1fr;gap:30px}
-.footer-main a:hover{color:#2eb3ff}
-.floating{position:fixed;bottom:20px;right:20px;background:#00b4f0;color:#fff;padding:12px 18px;border-radius:30px;font-weight:700;cursor:pointer;z-index:999;box-shadow:0 10px 20px rgba(0,0,0,0.2)}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
-.modal.active{display:flex}
-.modal-box{background:#fff;border-radius:16px;max-width:480px;width:100%;padding:22px;position:relative}
-.close{position:absolute;top:10px;right:10px;background:#f1f5f9;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer}
-.toast{position:fixed;top:20px;right:20px;background:#0f3557;color:#fff;padding:12px 16px;border-radius:8px;display:none;z-index:2000}
-.toast.show{display:block}
-@media(max-width:1100px){.dept-grid{grid-template-columns:repeat(2,1fr)}.service-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.dept-grid,.service-grid{grid-template-columns:1fr}.footer-main{grid-template-columns:1fr}}
-</style>
 </head>
 <body>
 
-<div class="top-bar"><span style="border:1px solid #00d1ff;padding:4px 10px;border-radius:20px;color:#00d1ff;font-weight:700">OPENING SOON | Kishori Global Hospital</span><span id="clock"></span></div>
-<nav class="navbar">
-  <div class="logo"><div class="logo-icon">K</div><div><b style="color:#00b4d8">KISHORI GLOBAL</b><br><small style="letter-spacing:2px;color:#8aa0b3">HOSPITAL</small></div></div>
-  <div style="display:flex;gap:16px;align-items:center;font-size:13px">
-    <a href="#">Home</a><a href="#departments">Departments</a><a href="#services">Services</a>
-    <a style="color:#ff2b2b;font-weight:700;cursor:pointer" onclick="openEmergency()"><i class="fa-solid fa-heart-pulse"></i> Emergency Help</a>
-    <button class="btn-book" onclick="openBook(\'General\')">Book Appointment</button>
-  </div>
-</nav>
+<div class="top-bar">OPENING SOON | Kishori Global Hospital - Sayan, Baragada, Odisha 768038</div>
 
-<section class="dept-section" id="departments">
-  <p class="tag">CLINICAL SPECIALITIES</p>
-  <h2 class="title">Our Medical & Surgical Departments</h2>
-  <p class="desc">Har card clickable hai - click karke details dekho aur Book OPD karo.</p>
-  <div class="dept-grid">
-    <div class="dept-card" onclick="openDept(\'Cardiology\')"><div class="dept-img"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600"><h3>Cardiology</h3></div><div class="dept-body"><p style="font-size:13px;color:#6b8496">Comprehensive cardiovascular assessment and preventive heart care.</p><div style="margin-top:8px"><span class="pill">ECG & Echo</span><span class="pill">Cardiac Consultation</span></div><div class="card-foot"><span>View Details ></span><b onclick="event.stopPropagation();openBook(\'Cardiology\')">Book OPD →</b></div></div></div>
-    <div class="dept-card" onclick="openDept(\'Neurology\')"><div class="dept-img"><img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=600"><h3>Neurology</h3></div><div class="dept-body"><p style="font-size:13px;color:#6b8496">Specialized evaluation of neurological conditions.</p><div style="margin-top:8px"><span class="pill">Neuro Assessment</span><span class="pill">Stroke Care</span></div><div class="card-foot"><span>View Details ></span><b onclick="event.stopPropagation();openBook(\'Neurology\')">Book OPD →</b></div></div></div>
-    <div class="dept-card" onclick="openDept(\'General Medicine\')"><div class="dept-img"><img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=600"><h3>General Medicine</h3></div><div class="dept-body"><p style="font-size:13px;color:#6b8496">Primary care, fever management and holistic adult health.</p><div style="margin-top:8px"><span class="pill">OPD</span><span class="pill">Diabetes Care</span></div><div class="card-foot"><span>View Details ></span><b onclick="event.stopPropagation();openBook(\'General Medicine\')">Book OPD →</b></div></div></div>
-    <div class="dept-card" onclick="openDept(\'General Surgery\')"><div class="dept-img"><img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600"><h3>General Surgery</h3></div><div class="dept-body"><p style="font-size:13px;color:#6b8496">Advanced surgical suites with modern equipment.</p><div style="margin-top:8px"><span class="pill">Minor Surgery</span><span class="pill">Laparoscopic</span></div><div class="card-foot"><span>View Details ></span><b onclick="event.stopPropagation();openBook(\'General Surgery\')">Book OPD →</b></div></div></div>
-    <div class="dept-card" onclick="openDept(\'Orthopaedics\')"><div class="dept-img"><img src="https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=600"><h3>Orthopaedics</h3></div><div class="dept-body"><p style="font-size:13px;color:#6b8496">Bone, joint, trauma care and rehabilitation.</p><div style="margin-top:8px"><span class="pill">Fracture</span><span class="pill">Joint Pain</span></div><div class="card-foot"><span>View Details ></span><b onclick="event.stopPropagation();openBook(\'Orthopaedics\')">Book OPD →</b></div></div></div>
-    <div class="dept-card" onclick="openDept(\'Paediatrics\')"><div class="dept-img"><img src="https://images.unsplash.com/photo-1485541953902-2afb8b9b47f6?w=600"><h3>Paediatrics</h3></div><div class="dept-body"><p style="font-size:13px;color:#6b8496">Dedicated child healthcare and immunization.</p><div style="margin-top:8px"><span class="pill">Child OPD</span><span class="pill">Vaccination</span></div><div class="card-foot"><span>View Details ></span><b onclick="event.stopPropagation();openBook(\'Paediatrics\')">Book OPD →</b></div></div></div>
-    <div class="dept-card" onclick="openDept(\'Obstetrics & Gynaecology\')"><div class="dept-img"><img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600"><h3>Obstetrics & Gynaecology</h3></div><div class="dept-body"><p style="font-size:13px;color:#6b8496">Women\'s healthcare, antenatal and maternity care.</p><div style="margin-top:8px"><span class="pill">ANC</span><span class="pill">Maternity</span></div><div class="card-foot"><span>View Details ></span><b onclick="event.stopPropagation();openBook(\'Obstetrics\')">Book OPD →</b></div></div></div>
-    <div class="dept-card" onclick="openDept(\'Dermatology\')"><div class="dept-img"><img src="https://images.unsplash.com/photo-1570172619644-dfd03edfa798?w=600"><h3>Dermatology</h3></div><div class="dept-body"><p style="font-size:13px;color:#6b8496">Clinical skin, hair, and nail health care.</p><div style="margin-top:8px"><span class="pill">Skin Allergy</span><span class="pill">Acne</span></div><div class="card-foot"><span>View Details ></span><b onclick="event.stopPropagation();openBook(\'Dermatology\')">Book OPD →</b></div></div></div>
+<header>
+  <div class="logo">
+    <span class="logo-k">K</span>
+    <div>
+      <b>KISHORI GLOBAL</b><br><span>HOSPITAL</span>
+    </div>
+  </div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#departments">Departments</a>
+    <a href="#services">Services</a>
+    <a href="tel:+917077772236" class="emergency-link"><i class="fa-solid fa-heart-pulse"></i> Emergency Help</a>
+    <a href="tel:+917077772231" class="btn-primary">Book Appointment</a>
+  </nav>
+  <div class="menu-toggle" onclick="document.querySelector(\'nav\').classList.toggle(\'open\')">☰</div>
+</header>
+
+<!-- HERO / DEPARTMENTS -->
+<section id="departments" class="section">
+  <p class="sub-title">CLINICAL SPECIALITIES</p>
+  <h2>Our Medical & Surgical Departments</h2>
+  <p class="light-text">Har card clickable hai - click karke details dekho aur Book OPD karo.</p>
+  <div id="deptGrid" class="dept-grid"></div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="section">
+  <p class="sub-title">HOSPITAL SERVICES</p>
+  <h2>Comprehensive Healthcare Services</h2>
+  <div class="services-grid" id="serviceGrid"></div>
+  
+  <div class="consult-banner">
+    <div>
+      <h3>Need Consultation?</h3>
+      <p>Submit online request - we will assist you.</p>
+    </div>
+    <a href="tel:+917077772231" class="btn-primary">Book Appointment Slot</a>
   </div>
 </section>
 
-<section class="dept-section" id="services">
-  <p class="tag">HOSPITAL SERVICES</p>
-  <h2 class="title">Comprehensive Healthcare Services</h2>
-  <div class="service-grid">
-    <div class="service-box" onclick="openBook(\'Emergency Care\')"><div class="icon"><i class="fa-solid fa-wave-square"></i></div><p style="font-size:11px;color:#00bfa6;font-weight:700;margin-top:8px">CRITICAL</p><b>Emergency Care</b><p style="font-size:13px;color:#6b8496;margin-top:4px">Rapid response team, 24/7 stabilization.</p></div>
-    <div class="service-box" onclick="openBook(\'OPD Services\')"><div class="icon"><i class="fa-solid fa-stethoscope"></i></div><p style="font-size:11px;color:#00bfa6;font-weight:700;margin-top:8px">CLINICAL</p><b>OPD Services</b><p style="font-size:13px;color:#6b8496;margin-top:4px">Outpatient consultation across specialities.</p></div>
-    <div class="service-box" onclick="openBook(\'Inpatient Care\')"><div class="icon"><i class="fa-solid fa-bed"></i></div><p style="font-size:11px;color:#00bfa6;font-weight:700;margin-top:8px">HOSPITALIZATION</p><b>Inpatient Care</b><p style="font-size:13px;color:#6b8496;margin-top:4px">Deluxe rooms with dedicated nursing.</p></div>
-    <div class="service-box" onclick="openBook(\'Laboratory\')"><div class="icon"><i class="fa-solid fa-flask"></i></div><p style="font-size:11px;color:#00bfa6;font-weight:700;margin-top:8px">DIAGNOSTICS</p><b>Laboratory Services</b><p style="font-size:13px;color:#6b8496;margin-top:4px">Automated biochemistry testing.</p></div>
-    <div class="service-box" onclick="openBook(\'Ambulance\')"><div class="icon"><i class="fa-solid fa-truck-medical"></i></div><p style="font-size:11px;color:#00bfa6;font-weight:700;margin-top:8px">EMERGENCY</p><b>Ambulance Services</b><p style="font-size:13px;color:#6b8496;margin-top:4px">Life-support emergency transport.</p></div>
+<!-- MAP SECTION -->
+<section class="section">
+  <h2>Visit Us - Kishori Global Hospital</h2>
+  <p>At- Sayan, P.O.- Deogaon, Dist.- Baragada, Odisha, India - 768038</p>
+  <div class="map-container">
+    <iframe src="https://www.google.com/maps?q=At+Sayan,P.O.+Deogaon,Dist.+Baragada,Odisha+768038&z=15&output=embed" 
+    width="100%" height="380" style="border:0; border-radius:12px;" allowfullscreen loading="lazy"></iframe>
   </div>
+  <a href="https://www.google.com/maps/search/?api=1&query=Kishori+Global+Hospital+At+Sayan+P.O.+Deogaon+Dist+Baragada+Odisha+768038" target="_blank" class="btn-maps"> <i class="fa-solid fa-location-dot"></i> Google Maps Directions</a>
 </section>
 
-<div class="cta"><div><h3>Need Consultation?</h3><p>Submit online request - we will assist you.</p></div><button class="btn-book" style="background:#00e5ff;color:#0F3557" onclick="openBook(\'General\')">Book Appointment Slot</button></div>
-
-<footer class="footer-dark">
-  <div style="padding:20px 6%;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;border-bottom:1px solid #1e4455;background:#0f2f3d">
-    <div><h3 style="color:#fff">Committed to Modern Healthcare in Western Odisha</h3><p style="color:#8aa0b3;font-size:13px">Appointment & Careers Portal Open</p></div>
-    <div style="display:flex;gap:10px"><button class="btn-book" onclick="openBook(\'General\')">Request Appointment</button><button style="background:rgba(255,255,255,0.1);color:#fff;border:1px solid #3a5a6b;padding:10px 16px;border-radius:20px;cursor:pointer" onclick="showToast(\'Careers Portal Opening Soon\')">Careers Portal</button></div>
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <h3>Committed to Modern Healthcare in Western Odisha</h3>
+      <p>Appointment & Careers Portal Open</p>
+    </div>
+    <div class="footer-btns">
+      <a href="tel:+917077772231" class="btn-primary">Request Appointment</a>
+      <a href="#" class="btn-secondary">Careers Portal</a>
+    </div>
   </div>
+
   <div class="footer-main">
-    <div><div style="display:flex;gap:10px"><div style="width:38px;height:38px;background:#fff;color:#0d2530;display:flex;align-items:center;justify-content:center;font-weight:900;border-radius:8px">K</div><b style="color:#fff">KISHORI GLOBAL HOSPITAL</b></div><p style="font-size:13px;color:#8aa0b3;margin-top:10px">Upcoming premier multi-speciality hospital at Sayan, Baragada, Odisha.</p></div>
-    <div><h4 style="color:#fff;border-bottom:1px solid #1e4455;padding-bottom:6px">EXPLORE HOSPITAL</h4><p style="margin-top:8px;line-height:1.8;font-size:13px"><a href="#">Home</a><br><a href="#departments">Clinical Departments</a><br><a href="#services">Medical Services</a></p></div>
-    <div><h4 style="color:#fff;border-bottom:1px solid #1e4455;padding-bottom:6px">PATIENTS & PUBLIC</h4><p style="margin-top:8px;line-height:1.8;font-size:13px"><a href="#" onclick="openBook(\'General\')">Request Appointment</a><br><a href="#">Careers</a><br><a href="#">FAQ</a></p></div>
-    <div><h4 style="color:#fff;border-bottom:1px solid #1e4455;padding-bottom:6px">HELPDESK & EMERGENCY</h4><p>Primary: <a href="tel:1234567890" style="color:#2ef0ff">1234567890</a></p><button onclick="openEmergency()" style="background:#ff1a2d;color:#fff;border:none;width:100%;padding:10px;border-radius:20px;margin-top:8px;font-weight:700;cursor:pointer">Emergency / Helpline</button><button onclick="window.open(\'https://maps.google.com/?q=Sayan+Baragada\',\'_blank\')" style="background:#1a3442;border:1px solid #2a4a5e;color:#fff;width:100%;padding:10px;border-radius:20px;margin-top:8px;cursor:pointer">Google Maps Directions</button></div>
+    <div>
+      <h4><span class="logo-k">K</span> KISHORI GLOBAL HOSPITAL</h4>
+      <p>Upcoming premier multi-speciality hospital at Sayan, Baragada, Odisha.</p>
+      <p>Zip Code: 768038</p>
+      <p><a href="mailto:kishoriglobalhospitals@gmail.com">kishoriglobalhospitals@gmail.com</a><br>
+      <a href="https://www.kishoriglobalhospitals.com" target="_blank">www.kishoriglobalhospitals.com</a></p>
+    </div>
+    <div>
+      <h4>EXPLORE HOSPITAL</h4>
+      <a href="#home">Home</a><br><a href="#departments">Clinical Departments</a><br><a href="#services">Medical Services</a>
+    </div>
+    <div>
+      <h4>PATIENTS & PUBLIC</h4>
+      <a href="tel:+917077772231">Request Appointment</a><br><a href="#">Careers</a><br><a href="#">FAQ</a>
+    </div>
+    <div>
+      <h4>HELPDESK & EMERGENCY</h4>
+      <p>Reception 1: <a href="tel:+917077772231">+91 7077772231</a></p>
+      <p>Reception 2: <a href="tel:+917077772232">+91 7077772232</a></p>
+      <p>Emergency: <a href="tel:+917077772236">+91 7077772236</a></p>
+      <p>Laboratory: <a href="tel:+917077772237">+91 7077772237</a></p>
+      <a href="tel:+917077772236" class="btn-emergency">Emergency / Helpline</a>
+      <a href="https://www.google.com/maps/search/?api=1&query=Kishori+Global+Hospital+At+Sayan+P.O.+Deogaon+Dist+Baragada+Odisha+768038" target="_blank" class="btn-maps-dark">Google Maps Directions</a>
+    </div>
   </div>
-  <div style="text-align:center;padding:14px;border-top:1px solid #1e4455;color:#6a8a9e;font-size:12px">© 2026 Kishori Global Hospital | <a href="admin.html" style="color:#2ef0ff">Admin Portal</a></div>
+  <div class="copyright">© 2026 Kishori Global Hospital | <a href="admin.html">Admin Portal</a></div>
 </footer>
 
-<div class="floating" onclick="openBook(\'General\')">Request Appointment</div>
+<!-- Mobile Sticky Bar - Desktop par hide, Mobile par show -->
+<div class="mobile-sticky-bar">
+  <a href="tel:+917077772236" class="sticky-emergency"><i class="fa-solid fa-truck-medical"></i> Emergency</a>
+  <a href="tel:+917077772231" class="sticky-book"><i class="fa-solid fa-phone"></i> Book Appointment</a>
+</div>
 
-<div class="modal" id="deptModal" onclick="if(event.target==this)closeM(\'deptModal\')"><div class="modal-box"><div class="close" onclick="closeM(\'deptModal\')"><i class="fa-solid fa-xmark"></i></div><h2 id="dTitle"></h2><p id="dDesc" style="color:#6b8496;margin:8px 0;font-size:14px"></p><button class="btn-book" style="width:100%;margin-top:10px" onclick="deptToBook()">Book OPD Now</button></div></div>
-<div class="modal" id="bookModal" onclick="if(event.target==this)closeM(\'bookModal\')"><div class="modal-box"><div class="close" onclick="closeM(\'bookModal\')"><i class="fa-solid fa-xmark"></i></div><h2>Book Appointment</h2><p style="font-size:13px;color:#6b8496">Department: <b id="bDept" style="color:#00b4d8"></b></p><input id="bName" placeholder="Your Name" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-top:10px"><input id="bPhone" placeholder="Phone" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-top:8px"><input type="date" id="bDate" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-top:8px"><button class="btn-book" style="width:100%;margin-top:10px" onclick="confirmBook()">Confirm Booking</button></div></div>
-<div class="modal" id="emergencyModal" onclick="if(event.target==this)closeM(\'emergencyModal\')"><div class="modal-box" style="text-align:center"><div class="close" onclick="closeM(\'emergencyModal\')"><i class="fa-solid fa-xmark"></i></div><h2 style="color:#ff1a2d">Emergency Help</h2><a href="tel:1234567890" style="display:block;background:#ff1a2d;color:#fff;padding:12px;border-radius:10px;margin-top:10px;font-weight:700">Call 1234567890</a><a href="tel:0123456789" style="display:block;background:#0d2530;color:#fff;padding:12px;border-radius:10px;margin-top:8px;font-weight:700">Call 0123456789</a></div></div>
-<div class="toast" id="toast"></div>
-
-<script>
-let curDept="";
-function openDept(name){curDept=name;document.getElementById(\'dTitle\').innerText=name;document.getElementById(\'dDesc\').innerText=name+" department me expert doctors aur modern facilities uplabdh hai. Book OPD karke appointment le sakte hai.";document.getElementById(\'deptModal\').classList.add(\'active\')}
-function openBook(dept){curDept=dept;document.getElementById(\'bDept\').innerText=dept;document.getElementById(\'bookModal\').classList.add(\'active\')}
-function deptToBook(){closeM(\'deptModal\');openBook(curDept)}
-function openEmergency(){document.getElementById(\'emergencyModal\').classList.add(\'active\')}
-function closeM(id){document.getElementById(id).classList.remove(\'active\')}
-function showToast(m){let t=document.getElementById(\'toast\');t.innerText=m;t.classList.add(\'show\');setTimeout(()=>t.classList.remove(\'show\'),2500)}
-function confirmBook(){let n=document.getElementById(\'bName\').value,p=document.getElementById(\'bPhone\').value;if(!n||!p)return showToast(\'Name & Phone bharo\');closeM(\'bookModal\');showToast(\'Appointment Booked for \'+curDept);document.getElementById(\'bName\').value=\'\';document.getElementById(\'bPhone\').value=\'\'}
-setInterval(()=>{let el=document.getElementById(\'clock\');if(el)el.innerText=new Date().toLocaleTimeString(\'en-IN\')+" IST"},1000);
-</script>
+<script src="script.js"></script>
 </body>
 </html>
