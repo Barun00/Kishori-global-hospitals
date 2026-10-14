@@ -3,16 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kishori Global Hospital - Sayan, Baragada</title>
+<title>Kishori Global Hospital - Sayan, Baragada, Odisha</title>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 
-<!-- TOP STRIP -->
 <div class="top-strip">OPENING SOON | Kishori Global Hospital - Sayan, Baragada, Odisha 768038</div>
 
-<!-- HEADER -->
 <header class="main-header">
   <a href="index.html" class="logo">
     <div class="logo-k">K</div>
@@ -23,83 +21,93 @@
     <a href="#departments">Departments</a>
     <a href="#services">Services</a>
     <a href="tel:+919876543210" class="emergency"><i class="fa-solid fa-heart-pulse"></i> Emergency Help</a>
-    <button onclick="openBooking(\'General Appointment\')" class="btn-book">Book Appointment</button>
+    <button onclick="openBooking(\'Appointment\')" class="btn-book">Book Appointment</button>
   </nav>
-  <div class="hamburger" onclick="document.getElementById(\'navLinks\').classList.toggle(\'open\')"><i class="fa-solid fa-bars"></i></div>
+  <div class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></div>
 </header>
 
-<!-- DEPARTMENTS - Screenshot jaisa look -->
 <section id="departments" class="dept-section">
-  <div class="dept-header">
+  <div class="dept-header reveal">
     <span>CLINICAL SPECIALITIES</span>
     <h2>Our Medical & Surgical Departments</h2>
     <p>Har card clickable hai - click karke details dekho aur Book OPD karo.</p>
   </div>
-
   <div class="dept-grid">
-    <div class="dept-card">
-      <div class="dept-img"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400"><span>Cardiology</span></div>
+    <div class="dept-card reveal">
+      <div class="dept-img"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600"><span>Cardiology</span></div>
       <div class="dept-body"><p>Comprehensive cardiovascular assessment and preventive heart care.</p><div class="dept-tags"><span>ECG & Echo</span><span>Cardiac Consultation</span></div><div class="dept-actions"><a href="#">View Details ></a><button onclick="openBooking(\'Cardiology\')" class="book-opd">Book OPD →</button></div></div>
     </div>
-    <div class="dept-card">
-      <div class="dept-img"><img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=400"><span>Neurology</span></div>
+    <div class="dept-card reveal">
+      <div class="dept-img"><img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=600"><span>Neurology</span></div>
       <div class="dept-body"><p>Specialized evaluation of neurological conditions.</p><div class="dept-tags"><span>Neuro Assessment</span><span>Stroke Care</span></div><div class="dept-actions"><a href="#">View Details ></a><button onclick="openBooking(\'Neurology\')" class="book-opd">Book OPD →</button></div></div>
     </div>
-    <div class="dept-card">
-      <div class="dept-img"><img src="https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=400"><span>General Medicine</span></div>
+    <div class="dept-card reveal">
+      <div class="dept-img"><img src="https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=600"><span>General Medicine</span></div>
       <div class="dept-body"><p>Primary care, fever management and holistic adult health.</p><div class="dept-tags"><span>OPD</span><span>Diabetes Care</span></div><div class="dept-actions"><a href="#">View Details ></a><button onclick="openBooking(\'General Medicine\')" class="book-opd">Book OPD →</button></div></div>
     </div>
-    <div class="dept-card">
-      <div class="dept-img"><img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400"><span>General Surgery</span></div>
+    <div class="dept-card reveal">
+      <div class="dept-img"><img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600"><span>General Surgery</span></div>
       <div class="dept-body"><p>Advanced surgical suites with modern equipment.</p><div class="dept-tags"><span>Minor Surgery</span><span>Laparoscopic</span></div><div class="dept-actions"><a href="#">View Details ></a><button onclick="openBooking(\'General Surgery\')" class="book-opd">Book OPD →</button></div></div>
     </div>
-    <div class="dept-card">
-      <div class="dept-img"><img src="https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=400"><span>Orthopaedics</span></div>
+    <div class="dept-card reveal">
+      <div class="dept-img"><img src="https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=600"><span>Orthopaedics</span></div>
       <div class="dept-body"><p>Bone, joint, trauma care and rehabilitation.</p><div class="dept-tags"><span>Fracture</span><span>Joint Pain</span></div><div class="dept-actions"><a href="#">View Details ></a><button onclick="openBooking(\'Orthopaedics\')" class="book-opd">Book OPD →</button></div></div>
     </div>
-    <div class="dept-card">
-      <div class="dept-img"><img src="https://via.placeholder.com/400x250?text=Paediatrics"><span>Paediatrics</span></div>
+    <div class="dept-card reveal">
+      <div class="dept-img"><img src="https://images.unsplash.com/photo-1629909613654-28e37737d97d?w=600"><span>Paediatrics</span></div>
       <div class="dept-body"><p>Dedicated child healthcare and immunization.</p><div class="dept-tags"><span>Child OPD</span><span>Vaccination</span></div><div class="dept-actions"><a href="#">View Details ></a><button onclick="openBooking(\'Paediatrics\')" class="book-opd">Book OPD →</button></div></div>
     </div>
-    <div class="dept-card">
-      <div class="dept-img"><img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400"><span>Obstetrics & Gynaecology</span></div>
+    <div class="dept-card reveal">
+      <div class="dept-img"><img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600"><span>Obstetrics & Gynaecology</span></div>
       <div class="dept-body"><p>Women\'s healthcare, antenatal and maternity care.</p><div class="dept-tags"><span>ANC</span><span>Maternity</span></div><div class="dept-actions"><a href="#">View Details ></a><button onclick="openBooking(\'Obstetrics & Gynaecology\')" class="book-opd">Book OPD →</button></div></div>
     </div>
-    <div class="dept-card">
-      <div class="dept-img"><img src="https://via.placeholder.com/400x250?text=Dermatology"><span>Dermatology</span></div>
+    <div class="dept-card reveal">
+      <div class="dept-img"><img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600"><span>Dermatology</span></div>
       <div class="dept-body"><p>Clinical skin, hair, and nail health care.</p><div class="dept-tags"><span>Skin Allergy</span><span>Acne</span></div><div class="dept-actions"><a href="#">View Details ></a><button onclick="openBooking(\'Dermatology\')" class="book-opd">Book OPD →</button></div></div>
     </div>
   </div>
 </section>
 
-<!-- HOSPITAL SERVICES - 1st Screenshot jaisa -->
-<section id="services" style="text-align:center; padding:40px 20px;">
-  <span style="color:#00E5E5; letter-spacing:3px; font-size:13px; font-weight:700;">HOSPITAL SERVICES</span>
-  <h2 style="color:#1e3a5f; font-size:34px; margin-top:8px;">Comprehensive Healthcare Services</h2>
+<section id="services" class="services-header reveal">
+  <span>HOSPITAL SERVICES</span>
+  <h2>Comprehensive Healthcare Services</h2>
 </section>
 
-<div style="max-width:1220px; margin:0 auto 40px; padding:0 20px;">
-  <div style="background: linear-gradient(90deg, #00E5E5, #0F3557); border-radius:16px; padding:18px 24px; display:flex; justify-content:space-between; align-items:center; color:#fff; flex-wrap:wrap; gap:15px;">
-    <div><b style="font-size:18px;">Need Consultation?</b><p style="margin:0; opacity:0.9; font-size:14px;">Submit online request - we will assist you.</p></div>
-    <button onclick="openBooking(\'Consultation\')" style="background:#00E5E5; color:#fff; border:none; padding:12px 22px; border-radius:25px; font-weight:700; cursor:pointer;">Book Appointment Slot</button>
+<div class="need-banner reveal">
+  <div class="need-banner-inner">
+    <div><b>Need Consultation?</b><p>Submit online request - we will assist you.</p></div>
+    <button onclick="openBooking(\'Consultation\')" class="btn-book light">Book Appointment Slot</button>
   </div>
 </div>
 
-<!-- VISIT US + MAP -->
-<section style="text-align:center; padding:20px;">
-  <h2 style="color:#1e3a5f; font-size:30px;">Visit Us - Kishori Global Hospital</h2>
-  <p style="color:#5a7184;">At- Sayan, P.O.- Deogaon, Dist.- Baragada, Odisha, India - 768038</p>
+<section class="visit-section reveal">
+  <h2>Visit Us - Kishori Global Hospital</h2>
+  <p>At- Sayan, P.O.- Deogaon, Dist.- Baragada, Odisha, India - 768038</p>
 </section>
-<iframe src="https://maps.google.com/maps?q=Sayan%20Odisha%20768038&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="380" style="border:0;"></iframe>
+<iframe class="map" src="https://maps.google.com/maps?q=Sayan%20Odisha%20768038&t=&z=13&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
 
-<!-- BOOKING MODAL - Reception 1 & 2 -->
+<div class="commit-bar">
+  <div><h3>Committed to Modern Healthcare in Western Odisha</h3><p>Appointment & Careers Portal Open</p></div>
+  <div class="commit-actions"><button onclick="openBooking(\'Appointment\')" class="btn-cyan">Request Appointment</button><a href="#" class="btn-outline">Careers Portal</a></div>
+</div>
+
+<footer class="main-footer">
+  <div><div class="footer-logo"><div class="logo-k">K</div><b>KISHORI GLOBAL HOSPITAL</b></div><p class="footer-desc">Upcoming premier multi-speciality hospital at Sayan, Baragada, Odisha.</p></div>
+  <div><h4>EXPLORE HOSPITAL</h4><a href="index.html">Home</a><a href="#departments">Clinical Departments</a><a href="#services">Medical Services</a></div>
+  <div><h4>PATIENTS & PUBLIC</h4><a href="#" onclick="openBooking(\'Appointment\')">Request Appointment</a><a href="#">Careers</a><a href="#">FAQ</a></div>
+  <div><h4>HELPDESK & EMERGENCY</h4><p>Primary: <span class="help-primary">+91 98765 43210</span></p><button onclick="openBooking(\'Emergency\')" class="btn-emergency">Emergency / Helpline</button><a href="https://maps.google.com/?q=Sayan+Odisha+768038" target="_blank" class="btn-maps">Google Maps Directions</a></div>
+</footer>
+<div class="copyright">© 2026 Kishori Global Hospital | <a href="admin.html" style="color:#00E5E5;">Admin Portal</a></div>
+
+<button onclick="openBooking(\'Appointment\')" class="floating-btn">Request Appointment</button>
+
 <div id="bookingModal" class="modal">
   <div class="modal-box">
     <span onclick="closeBooking()" class="close">&times;</span>
     <h3 id="modalTitle">Book OPD</h3>
-    <p>Kisi bhi reception par call karke slot book karo</p>
+    <p>Kisi bhi reception par call karke turant slot book karo</p>
     <a id="rec1" href="tel:+919876543210" class="btn-book" style="display:block; text-align:center; margin-top:18px;">Call Reception 1</a>
-    <a id="rec2" href="tel:+919876543211" class="btn-book" style="display:block; text-align:center; margin-top:10px; background:#0F3557;">Call Reception 2</a>
+    <a id="rec2" href="tel:+919876543211" class="btn-book dark" style="display:block; text-align:center; margin-top:10px;">Call Reception 2</a>
   </div>
 </div>
 
