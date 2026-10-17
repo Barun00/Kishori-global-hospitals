@@ -3,90 +3,141 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kishori Global Hospital - Sayan, Baragada, Odisha</title>
-<link rel="stylesheet" href="style.css">
+<title>Kishori Global Hospital, Bargarh - Caring for Life</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="../style.css">
 </head>
 <body>
 
-<div class="top-strip">OPENING SOON | Kishori Global Hospital - Sayan, Baragada, Odisha 768038</div>
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="container">
+    <div class="top-left">
+      <a href="mailto:kishoriglobalhospitals@gmail.com"><i class="fa-solid fa-envelope"></i> kishoriglobalhospitals@gmail.com</a>
+      <a href="tel:+917077772236" class="emergency-link"><i class="fa-solid fa-truck-medical"></i> Emergency: +91 7077772236</a>
+    </div>
+    <div class="top-right">
+      <span><i class="fa-solid fa-location-dot"></i> At- Sayan, P.O. Deogaon, Bargarh, Odisha - 768038</span>
+    </div>
+  </div>
+</div>
 
-<header class="main-header">
-  <a href="index.html" class="logo">
-    <div class="logo-k">K</div>
-    <div class="logo-text"><b>KISHORI GLOBAL</b><span>HOSPITAL</span></div>
-  </a>
-  <nav class="nav-links" id="navLinks">
-    <a href="index.html">Home</a>
-    <a href="#departments">Departments</a>
-    <a href="#services">Services</a>
-    <a href="tel:+917077772236" class="emergency"><i class="fa-solid fa-heart-pulse"></i> Emergency Help</a>
-    <button onclick="openBooking(\'Appointment\')" class="btn-book">Book Appointment</button>
-  </nav>
-  <div class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></div>
+<!-- Navbar -->
+<header class="navbar">
+  <div class="container nav-flex">
+    <div class="logo">
+      <img src="../logo.png" alt="Kishori Global Hospital">
+      <span>KISHORI GLOBAL<br><small>Caring for Life</small></span>
+    </div>
+    <nav id="navMenu">
+      <a href="#" class="active">Home</a>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+      <a href="tel:+917077772236" class="btn-emergency"><i class="fa-solid fa-phone"></i> EMERGENCY</a>
+      <a href="tel:+917077772231" class="btn-appointment"><i class="fa-solid fa-calendar-check"></i> Book Appointment</a>
+    </nav>
+    <i class="fa-solid fa-bars menu-toggle" id="menuToggle"></i>
+  </div>
 </header>
 
-<section id="departments" class="dept-section">
-  <div class="dept-header reveal">
-    <span>CLINICAL SPECIALITIES</span>
-    <h2>Our Medical & Surgical Departments</h2>
-    <p>Har card clickable hai - click karke details dekho aur Book OPD karo.</p>
-  </div>
-  <div class="dept-grid">
-    <div class="dept-card reveal"><div class="dept-img"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600"><span>Cardiology</span></div><div class="dept-body"><p>Comprehensive cardiovascular assessment and preventive heart care.</p><div class="dept-tags"><span>ECG & Echo</span><span>Cardiac Consultation</span></div><div class="dept-actions"><a href="#">View Details ></a><button onclick="openBooking(\'Cardiology\')" class="book-opd">Book OPD →</button></div></div></div>
-    <div class="dept-card reveal"><div class="dept-img"><img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=600"><span>Neurology</span></div><div class="dept-body"><p>Specialized evaluation of neurological conditions.</p><div class="dept-tags"><span>Neuro Assessment</span><span>Stroke Care</span></div><div class="dept-actions"><a href="#">View Details ></a><button onclick="openBooking(\'Neurology\')" class="book-opd">Book OPD →</button></div></div></div>
-    <div class="dept-card reveal"><div class="dept-img"><img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=600"><span>General Medicine</span></div><div class="dept-body"><p>Primary care, fever management and holistic adult health.</p><div class="dept-tags"><span>OPD</span><span>Diabetes Care</span></div><div class="dept-actions"><a href="#">View Details ></a><button onclick="openBooking(\'General Medicine\')" class="book-opd">Book OPD →</button></div></div></div>
-    <div class="dept-card reveal"><div class="dept-img"><img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600"><span>General Surgery</span></div><div class="dept-body"><p>Advanced surgical suites with modern equipment.</p><div class="dept-tags"><span>Minor Surgery</span><span>Laparoscopic</span></div><div class="dept-actions"><a href="#">View Details ></a><button onclick="openBooking(\'General Surgery\')" class="book-opd">Book OPD →</button></div></div></div>
-    <div class="dept-card reveal"><div class="dept-img"><img src="https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=600"><span>Orthopaedics</span></div><div class="dept-body"><p>Bone, joint, trauma care and rehabilitation.</p><div class="dept-tags"><span>Fracture</span><span>Joint Pain</span></div><div class="dept-actions"><a href="#">View Details ></a><button onclick="openBooking(\'Orthopaedics\')" class="book-opd">Book OPD →</button></div></div></div>
-    <div class="dept-card reveal"><div class="dept-img"><img src="https://images.unsplash.com/photo-1629909613654-28e37737d97d?w=600"><span>Paediatrics</span></div><div class="dept-body"><p>Dedicated child healthcare and immunization.</p><div class="dept-tags"><span>Child OPD</span><span>Vaccination</span></div><div class="dept-actions"><a href="#">View Details ></a><button onclick="openBooking(\'Paediatrics\')" class="book-opd">Book OPD →</button></div></div></div>
-    <div class="dept-card reveal"><div class="dept-img"><img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600"><span>Obstetrics & Gynaecology</span></div><div class="dept-body"><p>Women\'s healthcare, antenatal and maternity care.</p><div class="dept-tags"><span>ANC</span><span>Maternity</span></div><div class="dept-actions"><a href="#">View Details ></a><button onclick="openBooking(\'Obstetrics & Gynaecology\')" class="book-opd">Book OPD →</button></div></div></div>
-    <div class="dept-card reveal"><div class="dept-img"><img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600"><span>Dermatology</span></div><div class="dept-body"><p>Clinical skin, hair, and nail health care.</p><div class="dept-tags"><span>Skin Allergy</span><span>Acne</span></div><div class="dept-actions"><a href="#">View Details ></a><button onclick="openBooking(\'Dermatology\')" class="book-opd">Book OPD →</button></div></div></div>
+<!-- Hero Section -->
+<section class="hero">
+  <div class="container hero-flex">
+    <div class="hero-text">
+      <h1>Caring <br> <span>for Life</span></h1>
+      <p>Kishori Global Hospital, Sayan, Bargarh<br>Advanced Healthcare With Compassion & Modern Technology</p>
+      <div class="hero-btns">
+        <a href="tel:+917077772231" class="btn-primary"><i class="fa-solid fa-phone"></i> Book Appointment</a>
+        <a href="tel:+917077772236" class="btn-secondary"> Emergency Call</a>
+      </div>
+      <div class="hero-numbers">
+        <span><i class="fa-solid fa-headset"></i> Reception 2: <a href="tel:+917077772232">7077772232</a></span>
+        <span><i class="fa-solid fa-flask"></i> Lab: <a href="tel:+917077772237">7077772237</a></span>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?q=80&w=900" alt="Doctor Caring Patient">
+    </div>
   </div>
 </section>
 
-<section id="services" class="services-header reveal">
-  <span>HOSPITAL SERVICES</span>
-  <h2>Comprehensive Healthcare Services</h2>
-</section>
-
-<div class="need-banner reveal">
-  <div class="need-banner-inner">
-    <div><b>Need Consultation?</b><p>Submit online request - we will assist you.</p></div>
-    <button onclick="openBooking(\'Consultation\')" class="btn-book light">Book Appointment Slot</button>
+<!-- Contact Strip with Call -->
+<section class="contact-strip">
+  <div class="container strip-grid">
+    <a href="tel:+917077772231" class="strip-card"><i class="fa-solid fa-headset"></i><div><small>Reception 1</small><b>+91 7077772231</b></div></a>
+    <a href="tel:+917077772232" class="strip-card"><i class="fa-solid fa-phone-volume"></i><div><small>Reception 2</small><b>+91 7077772232</b></div></a>
+    <a href="tel:+917077772236" class="strip-card emergency"><i class="fa-solid fa-truck-medical"></i><div><small>Emergency 24x7</small><b>+91 7077772236</b></div></a>
+    <a href="tel:+917077772237" class="strip-card"><i class="fa-solid fa-vials"></i><div><small>Laboratory</small><b>+91 7077772237</b></div></a>
   </div>
-</div>
-
-<section class="visit-section reveal">
-  <h2>Visit Us - Kishori Global Hospital</h2>
-  <p>At- Sayan, P.O.- Deogaon, Dist.- Baragada, Odisha, India - 768038</p>
 </section>
-<iframe class="map" src="https://maps.google.com/maps?q=Sayan+Odisha+768038&t=&z=13&ie=UTF8&iwloc=&output=embed" loading="lazy"></iframe>
 
-<div class="commit-bar">
-  <div><h3>Committed to Modern Healthcare in Western Odisha</h3><p>Appointment & Careers Portal Open</p></div>
-  <div class="commit-actions"><button onclick="openBooking(\'Appointment\')" class="btn-cyan">Request Appointment</button><a href="#" class="btn-outline">Careers Portal</a></div>
-</div>
+<!-- Services -->
+<section id="services" class="section">
+  <div class="container">
+    <h2 class="section-title reveal">Our Specialities</h2>
+    <p class="section-subtitle reveal">Comprehensive Healthcare Services at Sayan, Bargarh</p>
+    <div class="grid-3">
+      <div class="card reveal"><i class="fa-solid fa-heart-pulse"></i><h3>Cardiology</h3><p>Advanced heart care with expert doctors.</p></div>
+      <div class="card reveal"><i class="fa-solid fa-brain"></i><h3>Neurology</h3><p>Brain & spine treatment with modern tech.</p></div>
+      <div class="card reveal"><i class="fa-solid fa-bone"></i><h3>Orthopedics</h3><p>Joint replacement & trauma care.</p></div>
+      <div class="card reveal"><i class="fa-solid fa-baby"></i><h3>Gynecology</h3><p>Women\'s health & maternity care.</p></div>
+      <div class="card reveal"><i class="fa-solid fa-flask"></i><h3>Laboratory</h3><p>24x7 Lab Service - Call: 7077772237</p></div>
+      <div class="card reveal"><i class="fa-solid fa-truck-medical"></i><h3>Emergency Care</h3><p>24x7 Emergency - Call: 7077772236</p></div>
+    </div>
+  </div>
+</section>
 
-<footer class="main-footer">
-  <div><div class="footer-logo"><div class="logo-k">K</div><b>KISHORI GLOBAL HOSPITAL</b></div><p class="footer-desc">Upcoming premier multi-speciality hospital at Sayan, Baragada, Odisha.<br>kishoriglobalhospitals@gmail.com<br>www.kishoriglobalhospitals.com</p></div>
-  <div><h4>EXPLORE HOSPITAL</h4><a href="index.html">Home</a><a href="#departments">Clinical Departments</a><a href="#services">Medical Services</a></div>
-  <div><h4>PATIENTS & PUBLIC</h4><a href="#" onclick="openBooking(\'Appointment\')">Request Appointment</a><a href="#">Careers</a><a href="#">FAQ</a></div>
-  <div><h4>HELPDESK & EMERGENCY</h4><p>Reception 1: <span class="help-primary">+91 7077772231</span><br>Reception 2: <span class="help-primary">+91 7077772232</span><br>Emergency: <span class="help-primary">+91 7077772236</span><br>Lab: <span class="help-primary">+91 7077772237</span></p><a href="tel:+917077772236" class="btn-emergency">Emergency / Helpline</a><a href="https://maps.google.com/?q=Sayan+Odisha+768038" target="_blank" class="btn-maps">Google Maps Directions</a></div>
+<!-- About -->
+<section id="about" class="section light-bg">
+  <div class="container about-flex reveal">
+    <img src="https://images.unsplash.com/photo-1586776802477-3680284edb4e?q=80&w=900" alt="Hospital Building">
+    <div>
+      <h2>Why Choose Kishori Global Hospital?</h2>
+      <p>We provide world-class healthcare with compassion, advanced technology and experienced doctors at Sayan, Bargarh, Odisha.</p>
+      <div class="stats">
+        <div><h3>100+</h3><p>Expert Doctors</p></div>
+        <div><h3>5000+</h3><p>Happy Patients</p></div>
+        <div><h3>15+</h3><p>Years Experience</p></div>
+        <div><h3>24x7</h3><p>Emergency</p></div>
+      </div>
+      <a href="tel:+917077772231" class="btn-primary">Book Appointment Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer id="contact" class="footer">
+  <div class="container footer-grid">
+    <div>
+      <h3>KISHORI GLOBAL HOSPITAL</h3>
+      <p style="color:var(--primary); letter-spacing:2px; font-size:12px;">Caring for Life</p>
+      <p><i class="fa-solid fa-location-dot"></i> At- Sayan, P.O.- Deogaon, Dist.- Bargarh, Odisha, India - 768038</p>
+      <p><i class="fa-solid fa-globe"></i> www.kishoriglobalhospitals.com</p>
+      <p><i class="fa-solid fa-envelope"></i> kishoriglobalhospitals@gmail.com</p>
+    </div>
+    <div>
+      <h4>Quick Contact</h4>
+      <a href="tel:+917077772231">Reception 1: +91 7077772231</a>
+      <a href="tel:+917077772232">Reception 2: +91 7077772232</a>
+      <a href="tel:+917077772236">Emergency: +91 7077772236</a>
+      <a href="tel:+917077772237">Laboratory: +91 7077772237</a>
+    </div>
+    <div>
+      <h4>Book Now</h4>
+      <a href="tel:+917077772231" class="btn-primary" style="display:block; text-align:center;">Book Appointment</a>
+      <a href="tel:+917077772236" class="btn-secondary" style="display:block; text-align:center; margin-top:10px; background:#E63946;">Emergency Call</a>
+    </div>
+    <div>
+      <iframe src="https://www.google.com/maps?q=Sayan+Bargarh+Odisha+768038&output=embed" width="100%" height="200" style="border:0; border-radius:12px;" loading="lazy"></iframe>
+    </div>
+  </div>
+  <div class="copyright">© 2025 Kishori Global Hospital, Bargarh. All Rights Reserved.</div>
 </footer>
-<div class="copyright">© 2026 Kishori Global Hospital | <a href="admin.html" style="color:#00E5E5;">Admin Portal</a></div>
 
-<button onclick="openBooking(\'Appointment\')" class="floating-btn">Request Appointment</button>
+<a href="tel:+917077772236" class="float-emergency"><i class="fa-solid fa-phone"></i> Emergency</a>
 
-<div id="bookingModal" class="modal">
-  <div class="modal-box">
-    <span onclick="closeBooking()" class="close">&times;</span>
-    <h3 id="modalTitle">Book OPD</h3>
-    <p>Kisi bhi reception par call karke turant slot book karo</p>
-    <a id="rec1" href="tel:+917077772231" class="btn-book" style="display:block; text-align:center; margin-top:18px;">Call Reception 1</a>
-    <a id="rec2" href="tel:+917077772232" class="btn-book dark" style="display:block; text-align:center; margin-top:10px;">Call Reception 2</a>
-    <a href="tel:+917077772236" class="btn-book" style="display:block; text-align:center; margin-top:10px; background:#FF3B5C;">Emergency - 7077772236</a>
-  </div>
-</div>
-<script src="script.js"></script>
+<script src="../script.js"></script>
 </body>
 </html>
