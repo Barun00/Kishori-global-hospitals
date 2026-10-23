@@ -1,100 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Panel - Kishori Global Hospital</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="stylesheet" href="style.css">
-<style>
-.admin-wrap{max-width:1100px;margin:30px auto;padding:0 15px}
-.admin-card{background:#fff;border-radius:16px;padding:25px;box-shadow:0 10px 30px rgba(0,0,0,0.08);margin-bottom:25px;transition:0.3s}
-.admin-card:hover{transform:translateY(-3px)}
-.admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:25px}
-.stat-box{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;padding:20px;border-radius:16px;text-align:center;transition:0.3s}
-.stat-box:hover{transform:scale(1.03)}
-.stat-box h2{font-size:28px}
-.admin-input{width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;margin:8px 0;transition:0.3s}
-.admin-input:focus{border-color:var(--primary);outline:none;box-shadow:0 0 0 3px rgba(58,158,187,0.15)}
-.admin-table{width:100%;border-collapse:collapse;margin-top:15px}
-.admin-table th{background:var(--secondary);color:#fff;padding:12px;text-align:left}
-.admin-table td{padding:12px;border-bottom:1px solid #eee}
-.login-box{max-width:400px;margin:80px auto}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+
+  <title>Hospital Admin | Kishori Global</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .kadmin { max-width:1400px; margin:auto; padding:30px 20px; }
+    .kadmin-header { display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; margin-bottom:28px; }
+    .kadmin-header h1 { color:#0F2D4D; font-size:clamp(24px,4vw,34px); }
+    .kadmin-muted { color:#667085; font-size:12px; }
+    .kadmin-card { background:#fff; border:1px solid #DCE8ED; border-radius:16px; padding:24px; margin-bottom:22px; box-shadow:0 8px 28px rgba(15,45,77,.05); }
+    .kadmin-login { max-width:460px; margin:70px auto; }
+    .kadmin-field { display:flex; flex-direction:column; gap:7px; margin:16px 0; }
+    .kadmin-field label { color:#0F2D4D; font-weight:600; font-size:12px; }
+    .kadmin-field input,.kadmin-field select,.kadmin-field textarea { width:100%; padding:12px; border:1px solid #DCE8ED; border-radius:9px; background:#fff; color:#0F2D4D; font:inherit; font-size:12px; }
+    .kadmin-stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:15px; margin-bottom:22px; }
+    .kadmin-stat { background:#fff; border:1px solid #DCE8ED; border-radius:14px; padding:20px; }
+    .kadmin-stat small { color:#667085; font-size:11px; }
+    .kadmin-stat h2 { color:#0F2D4D; font-size:27px; margin-top:6px; }
+    .kadmin-actions { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    .kadmin-button { cursor:pointer; border:0; border-radius:9px; padding:11px 15px; font:600 12px Poppins,sans-serif; background:#3A9EBB; color:#fff; }
+    .kadmin-button:hover { background:#2C7F9B; }
+    .kadmin-button.secondary { background:#0F2D4D; }
+    .kadmin-button:disabled { opacity:.6; cursor:wait; }
+    .kadmin-tabs { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+    .kadmin-tab { border:1px solid #DCE8ED; background:#fff; color:#0F2D4D; border-radius:9px; padding:10px 14px; cursor:pointer; font:600 12px Poppins,sans-serif; }
+    .kadmin-tab.active { background:#E8F6FA; color:#2C7F9B; border-color:#B9DFEA; }
+    .kadmin-table-wrap { width:100%; overflow-x:auto; }
+    .kadmin table { width:100%; min-width:850px; border-collapse:collapse; }
+    .kadmin th { padding:12px; background:#F1F9FB; color:#0F2D4D; text-align:left; font-size:11px; white-space:nowrap; }
+    .kadmin td { padding:12px; border-bottom:1px solid #E8EEF2; color:#344054; font-size:11px; vertical-align:top; }
+    .kadmin td select,.kadmin td textarea { min-width:120px; padding:8px; border:1px solid #DCE8ED; border-radius:7px; font:inherit; }
+    .kadmin td textarea { min-width:165px; min-height:65px; }
+    .kadmin-message { margin:12px 0; font-size:12px; line-height:1.8; overflow-wrap:anywhere; }
+    .kadmin-error { color:#B42318; }
+    .kadmin-success { color:#18794E; }
+    .kadmin[hidden],.kadmin [hidden] { display:none !important; }
+    @media(max-width:650px) {
+      .kadmin { padding:20px 12px; }
+      .kadmin-card { padding:16px; }
+      .kadmin-stats { grid-template-columns:1fr; }
+    }
+  </style>
 </head>
+
 <body>
-<header class="navbar">
-  <div class="container nav-flex">
-    <div class="logo"><img src="logo.png" alt="logo"><span>KISHORI GLOBAL<br><small>Admin Panel</small></span></div>
-    <a href="HOME/index.html" class="btn-primary"><i class="fa-solid fa-house"></i> View Website</a>
-  </div>
-</header>
 
-<div id="loginSection" class="admin-wrap login-box">
-  <div class="admin-card" style="text-align:center">
-    <h2 style="color:var(--secondary)">Admin Login</h2>
-    <input id="adminUser" class="admin-input" placeholder="Username (admin)">
-    <input id="adminPass" type="password" class="admin-input" placeholder="Password (admin123)">
-    <button onclick="login()" class="btn-primary" style="width:100%; margin-top:10px; border:none; cursor:pointer;">Login</button>
-    <p style="font-size:12px; color:#888; margin-top:10px">Demo: admin / admin123</p>
-  </div>
-</div>
+  <main class="kadmin">
 
-<div id="dashboard" class="admin-wrap" style="display:none">
-  <div class="admin-stats">
-    <div class="stat-box"><h2><i class="fa-solid fa-phone"></i></h2><p>Reception 1</p><b>7077772231</b></div>
-    <div class="stat-box" style="background:linear-gradient(135deg,#E63946,#9B1B30)"><h2><i class="fa-solid fa-truck-medical"></i></h2><p>Emergency</p><b>7077772236</b></div>
-    <div class="stat-box"><h2><i class="fa-solid fa-flask"></i></h2><p>Laboratory</p><b>7077772237</b></div>
-    <div class="stat-box"><h2 id="totalApp">0</h2><p>Total Appointments</p></div>
-  </div>
+    <!-- LOGIN -->
+    <section id="loginSection" class="kadmin-card kadmin-login">
+      <a href="index.html" class="logo">
+        <img src="logo.png" alt="Kishori Global Hospital">
+        <span>KISHORI GLOBAL<small>ADMINISTRATION</small></span>
+      </a>
 
-  <div class="admin-card">
-    <h3><i class="fa-solid fa-calendar-plus" style="color:var(--primary)"></i> Add New Appointment (Demo)</h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px">
-      <input id="pName" class="admin-input" placeholder="Patient Name">
-      <input id="pPhone" class="admin-input" placeholder="Phone Number">
-      <input id="pDate" type="date" class="admin-input">
-      <select id="pDept" class="admin-input"><option>Cardiology</option><option>Neurology</option><option>Orthopedics</option><option>Gynecology</option><option>Laboratory</option><option>Emergency</option></select>
-    </div>
-    <button onclick="addAppointment()" class="btn-primary" style="border:none;cursor:pointer;margin-top:10px">Add Appointment</button>
-  </div>
+      <h1 style="color:#0F2D4D;margin-top:28px">Admin Login</h1>
+      <p class="kadmin-muted" style="margin-top:6px">
+        Sign in with your authorised hospital administrator account.
+      </p>
 
-  <div class="admin-card">
-    <h3>Recent Appointments</h3>
-    <table class="admin-table">
-      <thead><tr><th>Name</th><th>Phone</th><th>Date</th><th>Department</th><th>Action</th></tr></thead>
-      <tbody id="appTable"></tbody>
-    </table>
-  </div>
-</div>
+      <form id="adminLoginForm">
+        <div class="kadmin-field">
+          <label for="adminEmail">Admin email</label>
+          <input type="email" id="adminEmail" autocomplete="username" required>
+        </div>
 
-<script>
-function login(){
-  if(document.getElementById(\'adminUser\').value===\'admin\' && document.getElementById(\'adminPass\').value===\'admin123\'){
-    document.getElementById(\'loginSection\').style.display=\'none\';
-    document.getElementById(\'dashboard\').style.display=\'block\';
-    loadTable();
-  } else { alert(\'Wrong! Use admin / admin123\'); }
-}
-let apps = JSON.parse(localStorage.getItem(\'kgh_apps\')||\'[]\');
-function addAppointment(){
-  let obj={name:pName.value, phone:pPhone.value, date:pDate.value, dept:pDept.value};
-  if(!obj.name||!obj.phone) return alert(\'Name & Phone required\');
-  apps.push(obj);
-  localStorage.setItem(\'kgh_apps\',JSON.stringify(apps));
-  pName.value=pPhone.value=pDate.value=\'\';
-  loadTable();
-}
-function loadTable(){
-  let tbody=document.getElementById(\'appTable\');
-  tbody.innerHTML=\'\';
-  apps.forEach((a,i)=>{
-    tbody.innerHTML+=`<tr><td>${a.name}</td><td><a href="tel:${a.phone}">${a.phone}</a></td><td>${a.date}</td><td>${a.dept}</td><td><button onclick="delApp(${i})" style="background:#E63946;color:#fff;border:none;padding:6px 12px;border-radius:20px;cursor:pointer">Delete</button></td></tr>`;
-  });
-  document.getElementById(\'totalApp\').innerText=apps.length;
-}
-function delApp(i){ apps.splice(i,1); localStorage.setItem(\'kgh_apps\',JSON.stringify(apps)); loadTable(); }
-</script>
+        <div class="kadmin-field">
+          <label for="adminPassword">Password</label>
+          <input type="password" id="adminPassword" autocomplete="current-password" required>
+        </div>
+
+        <button class="kadmin-button" id="loginButton" type="submit" style="width:100%;margin-top:8px">
+          <i class="fa-solid fa-lock"></i> Sign In
+        </button>
+
+        <p id="loginStatus" class="kadmin-message" role="status"></p>
+      </form>
+
+      <a href="index.html" class="kadmin-muted">← Back to website</a>
+    </section>
+
+
+    <!-- SECURE DASHBOARD -->
+    <section id="dashboard" hidden>
+
+      <header class="kadmin-header">
+        <div>
+          <span class="section-kicker">KISHORI GLOBAL HOSPITAL</span>
+          <h1>Hospital Dashboard</h1>
+          <p class="kadmin-muted" id="signedInEmail"></p>
+        </div>
+
+        <div class="kadmin-actions">
+          <a href="index.html" class="kadmin-button secondary">View Website</a>
+          <button id="refreshButton" class="kadmin-button" type="button">
+            <i class="fa-solid fa-rotate"></i> Refresh
+          </button>
+          <button id="logoutButton" class="kadmin-button secondary" type="button">
+            Sign Out
+          </button>
+        </div>
+      </header>
+
+
+      <div class="kadmin-stats">
+        <article class="kadmin-stat">
+          <small>Total appointment requests</small>
+          <h2 id="totalAppointments">—</h2>
+        </article>
+
+        <article class="kadmin-stat">
+          <small>Pending appointments</small>
+          <h2 id="pendingAppointments">—</h2>
+        </article>
+
+        <article class="kadmin-stat">
+          <small>New enquiries</small>
+          <h2 id="newMessages">—</h2>
+        </article>
+      </div>
+
+
+      <div class="kadmin-card">
+        <div class="kadmin-tabs">
+          <button class="kadmin-tab active" data-tab="appointments" type="button">
+            <i class="fa-solid fa-calendar-check"></i> Appointments
+          </button>
+
+          <button class="kadmin-tab" data-tab="messages" type="button">
+            <i class="fa-solid fa-inbox"></i> Contact Enquiries
+          </button>
+        </div>
+
+        <p id="dashboardStatus" class="kadmin-message" role="status"></p>
+
+
+        <!-- APPOINTMENTS -->
+        <section id="appointmentsPanel">
+          <h2 style="color:#0F2D4D;font-size:19px;margin-bottom:15px">
+            Appointment Requests
+          </h2>
+
+          <p class="kadmin-muted" style="margin-bottom:18px">
+            Review incoming requests. Confirm the appointment directly with the patient.
+          </p>
+
+          <div class="kadmin-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Patient / Submitted</th>
+                  <th>Phone</th>
+                  <th>Department</th>
+                  <th>Preferred Date</th>
+                  <th>Status</th>
+                  <th>Internal Notes</th>
+                  <th>Save</th>
+                </tr>
+              </thead>
+              <tbody id="appointmentsTable">
+                <tr><td colspan="7">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+
+        <!-- CONTACT ENQUIRIES -->
+        <section id="messagesPanel" hidden>
+          <h2 style="color:#0F2D4D;font-size:19px;margin-bottom:15px">
+            Contact Enquiries
+          </h2>
+
+          <div class="kadmin-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name / Submitted</th>
+                  <th>Phone / Email</th>
+                  <th>Category</th>
+                  <th>Message</th>
+                  <th>Status</th>
+                  <th>Internal Notes</th>
+                  <th>Save</th>
+                </tr>
+              </thead>
+              <tbody id="messagesTable">
+                <tr><td colspan="7">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </div>
+
+      <p class="kadmin-muted">
+        Patient information is confidential. Use this dashboard only on an authorised device.
+      </p>
+
+    </section>
+
+  </main>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="admin.js"></script>
+
 </body>
 </html>

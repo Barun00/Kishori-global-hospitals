@@ -1,11 +1,18 @@
-/* =========================================================
+/* ============================================================
    KISHORI GLOBAL HOSPITAL
-   Website Interactions
-   ========================================================= */
+   Website interactions + Supabase appointment/contact forms
+   Preserves existing homepage behaviour and layout.
+   ============================================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
+  "use strict";
 
-  // ---------- 1. MOBILE NAVIGATION ----------
+  const db = window.kghSupabase;
+
+
+  // ----------------------------------------------------------
+  // 1. MOBILE NAVIGATION
+  // ----------------------------------------------------------
 
   const menuToggle = document.getElementById("menuToggle");
   const navMenu = document.getElementById("navMenu");
@@ -25,56 +32,50 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function toggleMenu() {
-    if (!menuToggle || !navMenu) return;
-
-    const isOpen = navMenu.classList.toggle("show");
-
-    menuToggle.setAttribute("aria-expanded", String(isOpen));
-    menuToggle.setAttribute(
-      "aria-label",
-      isOpen ? "Close navigation menu" : "Open navigation menu"
-    );
-
-    const icon = menuToggle.querySelector("i");
-
-    if (icon) {
-      icon.classList.toggle("fa-bars", !isOpen);
-      icon.classList.toggle("fa-xmark", isOpen);
-    }
-  }
-
   if (menuToggle && navMenu) {
-    menuToggle.addEventListener("click", toggleMenu);
+    menuToggle.addEventListener("click", () => {
+      const isOpen = navMenu.classList.toggle("show");
+
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuToggle.setAttribute(
+        "aria-label",
+        isOpen ? "Close navigation menu" : "Open navigation menu"
+      );
+
+      const icon = menuToggle.querySelector("i");
+
+      if (icon) {
+        icon.classList.toggle("fa-bars", !isOpen);
+        icon.classList.toggle("fa-xmark", isOpen);
+      }
+    });
 
     navMenu.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", closeMenu);
     });
 
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        closeMenu();
-      }
+      if (event.key === "Escape") closeMenu();
     });
 
     document.addEventListener("click", (event) => {
-      const clickedInsideMenu = navMenu.contains(event.target);
-      const clickedToggle = menuToggle.contains(event.target);
-
-      if (!clickedInsideMenu && !clickedToggle) {
+      if (
+        !navMenu.contains(event.target) &&
+        !menuToggle.contains(event.target)
+      ) {
         closeMenu();
       }
     });
 
     window.addEventListener("resize", () => {
-      if (window.innerWidth > 850) {
-        closeMenu();
-      }
+      if (window.innerWidth > 850) closeMenu();
     });
   }
 
 
-  // ---------- 2. SCROLL REVEAL ANIMATIONS ----------
+  // ----------------------------------------------------------
+  // 2. SCROLL REVEAL ANIMATIONS
+  // ----------------------------------------------------------
 
   const revealElements = document.querySelectorAll(".reveal");
 
@@ -98,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
       revealObserver.observe(element);
     });
 
-    // Fallback: prevent sections from remaining hidden.
+    // Fallback: don't leave initially visible content hidden.
     window.setTimeout(() => {
       revealElements.forEach((element) => {
         const rect = element.getBoundingClientRect();
@@ -110,14 +111,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1500);
 
   } else {
-    // Older browser fallback.
     revealElements.forEach((element) => {
       element.classList.add("active");
     });
   }
 
 
-  // ---------- 3. ACTIVE NAVIGATION LINKS ----------
+  // ----------------------------------------------------------
+  // 3. ACTIVE NAVIGATION LINKS
+  // ----------------------------------------------------------
 
   const navLinks = document.querySelectorAll(
     '#navMenu a[href^="#"]'
@@ -129,9 +131,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function setActiveLink(sectionId) {
     navLinks.forEach((link) => {
-      const isActive = link.getAttribute("href") === `#${sectionId}`;
-
-      link.classList.toggle("active", isActive);
+      link.classList.toggle(
+        "active",
+        link.getAttribute("href") === `#${sectionId}`
+      );
     });
   }
 
@@ -141,8 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const visibleSections = entries
           .filter((entry) => entry.isIntersecting)
           .sort(
-            (a, b) =>
-              b.intersectionRatio - a.intersectionRatio
+            (a, b) => b.intersectionRatio - a.intersectionRatio
           );
 
         if (visibleSections.length > 0) {
@@ -164,14 +166,14 @@ document.addEventListener("DOMContentLoaded", () => {
     link.addEventListener("click", () => {
       const sectionId = link.getAttribute("href").slice(1);
 
-      if (sectionId) {
-        setActiveLink(sectionId);
-      }
+      if (sectionId) setActiveLink(sectionId);
     });
   });
 
 
-  // ---------- 4. AUTOMATIC COPYRIGHT YEAR ----------
+  // ----------------------------------------------------------
+  // 4. AUTOMATIC COPYRIGHT YEAR
+  // ----------------------------------------------------------
 
   const currentYear = document.getElementById("currentYear");
 
@@ -180,9 +182,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  // ---------- 5. APPOINTMENT DATE VALIDATION ----------
-
-  const appointmentDate = document.getElementById("appointmentDate");
+  // ----------------------------------------------------------
+  // 5. FORM UTILITIES
+  // ----------------------------------------------------------
 
   function getLocalDateString() {
     const today = new Date();
@@ -194,123 +196,366 @@ document.addEventListener("DOMContentLoaded", () => {
     return `${year}-${month}-${day}`;
   }
 
+  function isValidPhone(value) {
+    const digits = String(value || "").replace(/\D/g, "");
+
+    return digits.length >= 10 && digits.length <= 15;
+  }
+
+  function showFormMessage(element, text, type = "") {
+    if (!element) return;
+
+    element.textContent = text;
+
+    element.classList.remove(
+      "form-success",
+      "form-error"
+    );
+
+    if (type === "success") {
+      element.classList.add("form-success");
+    }
+
+    if (type === "error") {
+      element.classList.add("form-error");
+    }
+  }
+
+  function setFormBusy(form, busy) {
+    const button = form.querySelector('button[type="submit"]');
+
+    if (!button) return;
+
+    if (busy) {
+      if (!button.dataset.originalHTML) {
+        button.dataset.originalHTML = button.innerHTML;
+      }
+
+      button.disabled = true;
+      button.textContent = "Submitting...";
+
+    } else {
+      button.disabled = false;
+
+      if (button.dataset.originalHTML) {
+        button.innerHTML = button.dataset.originalHTML;
+        delete button.dataset.originalHTML;
+      }
+    }
+  }
+
+  function showBackendUnavailable(element, formType) {
+    if (!db) {
+      showFormMessage(
+        element,
+        `${formType} service is not connected. Please contact the hospital directly.`,
+        "error"
+      );
+
+      return true;
+    }
+
+    return false;
+  }
+
+
+  // ----------------------------------------------------------
+  // 6. APPOINTMENT DATE VALIDATION
+  // ----------------------------------------------------------
+
+  const appointmentDate = document.getElementById(
+    "appointmentDate"
+  );
+
   if (appointmentDate) {
     appointmentDate.min = getLocalDateString();
   }
 
 
-  // ---------- 6. APPOINTMENT FORM DEMO ----------
+  // ----------------------------------------------------------
+  // 7. APPOINTMENT FORM -> SUPABASE
+  // ----------------------------------------------------------
 
-  const appointmentForm = document.getElementById("appointmentForm");
+  const appointmentForm = document.getElementById(
+    "appointmentForm"
+  );
+
   const appointmentMessage = document.getElementById(
     "appointmentMessage"
   );
 
   if (appointmentForm && appointmentMessage) {
-    appointmentForm.addEventListener("submit", (event) => {
+    appointmentForm.addEventListener("submit", async (event) => {
       event.preventDefault();
 
-      appointmentMessage.textContent = "";
-      appointmentMessage.setAttribute("role", "status");
+      showFormMessage(appointmentMessage, "");
 
       if (!appointmentForm.checkValidity()) {
         appointmentForm.reportValidity();
         return;
       }
 
-      const phoneInput = document.getElementById("patientPhone");
-      const phoneDigits = phoneInput.value.replace(/\D/g, "");
+      const patientName = document
+        .getElementById("patientName")
+        .value.trim();
 
-      if (phoneDigits.length < 10 || phoneDigits.length > 15) {
-        appointmentMessage.textContent =
-          "Please enter a valid contact number containing 10 to 15 digits.";
+      const patientPhone = document
+        .getElementById("patientPhone")
+        .value.trim();
 
-        phoneInput.focus();
+      const department = document
+        .getElementById("appointmentDepartment")
+        .value;
+
+      const preferredDate = appointmentDate.value;
+
+      const preferredTime = document
+        .getElementById("appointmentTime")
+        ?.value || "";
+
+      const preferredDoctor = document
+        .getElementById("doctorName")
+        .value.trim();
+
+      const visitReason = document
+        .getElementById("visitReason")
+        .value.trim();
+
+      if (!isValidPhone(patientPhone)) {
+        showFormMessage(
+          appointmentMessage,
+          "Please enter a valid phone number containing 10 to 15 digits.",
+          "error"
+        );
+
+        document.getElementById("patientPhone").focus();
         return;
       }
 
-      if (appointmentDate.value < getLocalDateString()) {
-        appointmentMessage.textContent =
-          "Please choose today or a future date.";
+      if (preferredDate < getLocalDateString()) {
+        showFormMessage(
+          appointmentMessage,
+          "Please select today or a future appointment date.",
+          "error"
+        );
 
         appointmentDate.focus();
         return;
       }
 
-      /*
-       * FRONT-END DEMO ONLY
-       *
-       * There is no backend connection.
-       * Do not claim that an appointment was booked or submitted.
-       * No patient form data is stored or transmitted here.
-       */
+      if (showBackendUnavailable(
+        appointmentMessage,
+        "Online appointment"
+      )) {
+        return;
+      }
 
-      appointmentMessage.textContent =
-        "Form validation complete. This website demo has not sent your request to the hospital. Please call Reception at +91 7077772231 to arrange and confirm your appointment.";
+      setFormBusy(appointmentForm, true);
+
+      try {
+        const { error } = await db
+          .from("appointments")
+          .insert({
+            patient_name: patientName,
+            phone: patientPhone,
+            department: department,
+            preferred_doctor: preferredDoctor,
+            preferred_date: preferredDate,
+            preferred_time: preferredTime,
+            visit_reason: visitReason,
+            consent: true
+          });
+
+        if (error) {
+          console.error(
+            "Appointment submission failed:",
+            error.code || "UNKNOWN_ERROR"
+          );
+
+          showFormMessage(
+            appointmentMessage,
+            "We could not save your appointment request. Please call reception at +91 7077772231.",
+            "error"
+          );
+
+          return;
+        }
+
+        appointmentForm.reset();
+
+        if (appointmentDate) {
+          appointmentDate.min = getLocalDateString();
+        }
+
+        showFormMessage(
+          appointmentMessage,
+          "Your appointment request has been received. It is not yet a confirmed booking. Please contact reception to confirm availability.",
+          "success"
+        );
+
+      } catch (error) {
+        console.error("Appointment service unavailable.");
+
+        showFormMessage(
+          appointmentMessage,
+          "The booking service is temporarily unavailable. Please call the hospital.",
+          "error"
+        );
+
+      } finally {
+        setFormBusy(appointmentForm, false);
+      }
     });
   }
 
 
-  // ---------- 7. GENERAL CONTACT FORM DEMO ----------
+  // ----------------------------------------------------------
+  // 8. CONTACT FORM -> SUPABASE
+  // ----------------------------------------------------------
 
   const contactForm = document.getElementById("contactForm");
+
   const contactMessageStatus = document.getElementById(
     "contactMessageStatus"
   );
 
   if (contactForm && contactMessageStatus) {
-    contactForm.addEventListener("submit", (event) => {
+    contactForm.addEventListener("submit", async (event) => {
       event.preventDefault();
 
-      contactMessageStatus.textContent = "";
+      showFormMessage(contactMessageStatus, "");
 
       if (!contactForm.checkValidity()) {
         contactForm.reportValidity();
         return;
       }
 
-      const phoneInput = document.getElementById("contactPhone");
-      const phoneDigits = phoneInput.value.replace(/\D/g, "");
+      const name = document
+        .getElementById("contactName")
+        .value.trim();
 
-      if (phoneDigits.length < 10 || phoneDigits.length > 15) {
-        contactMessageStatus.textContent =
-          "Please enter a valid contact number containing 10 to 15 digits.";
+      const phone = document
+        .getElementById("contactPhone")
+        .value.trim();
 
-        phoneInput.focus();
+      const email = document
+        .getElementById("contactEmail")
+        .value.trim();
+
+      const category = document
+        .getElementById("enquiryCategory")
+        .value;
+
+      const messageText = document
+        .getElementById("contactMessage")
+        .value.trim();
+
+      if (!isValidPhone(phone)) {
+        showFormMessage(
+          contactMessageStatus,
+          "Please enter a valid phone number containing 10 to 15 digits.",
+          "error"
+        );
+
+        document.getElementById("contactPhone").focus();
         return;
       }
 
-      /*
-       * FRONT-END DEMO ONLY
-       *
-       * The enquiry is not emailed, transmitted or saved.
-       * A backend or approved form service is needed
-       * to receive real enquiries.
-       */
+      if (showBackendUnavailable(
+        contactMessageStatus,
+        "Online enquiry"
+      )) {
+        return;
+      }
 
-      contactMessageStatus.textContent =
-        "Form validation complete. This website demo has not sent your enquiry. Please email kishoriglobalhospitals@gmail.com or call +91 7077772231 for assistance.";
+      setFormBusy(contactForm, true);
+
+      try {
+        const { error } = await db
+          .from("contact_messages")
+          .insert({
+            name: name,
+            phone: phone,
+            email: email,
+            category: category,
+            message: messageText,
+            consent: true
+          });
+
+        if (error) {
+          console.error(
+            "Contact submission failed:",
+            error.code || "UNKNOWN_ERROR"
+          );
+
+          showFormMessage(
+            contactMessageStatus,
+            "We could not save your enquiry. Please email kishoriglobalhospitals@gmail.com or contact reception.",
+            "error"
+          );
+
+          return;
+        }
+
+        contactForm.reset();
+
+        showFormMessage(
+          contactMessageStatus,
+          "Your enquiry has been received for authorised hospital staff to review.",
+          "success"
+        );
+
+      } catch (error) {
+        console.error("Contact service unavailable.");
+
+        showFormMessage(
+          contactMessageStatus,
+          "The enquiry service is temporarily unavailable. Please contact the hospital by phone or email.",
+          "error"
+        );
+
+      } finally {
+        setFormBusy(contactForm, false);
+      }
     });
   }
 
 
-  // ---------- 8. FAQ ACCESSIBILITY ----------
+  // ----------------------------------------------------------
+  // 9. FAQ ACCESSIBILITY
+  // ----------------------------------------------------------
 
-  const faqItems = document.querySelectorAll(".faq-item");
-
-  faqItems.forEach((item) => {
+  document.querySelectorAll(".faq-item").forEach((item) => {
     const summary = item.querySelector("summary");
 
     if (summary) {
-      summary.setAttribute("aria-label", summary.textContent.trim());
+      summary.setAttribute(
+        "aria-label",
+        summary.textContent.trim()
+      );
     }
   });
 
 
-  // ---------- 9. EXTERNAL LINKS ----------
+  // ----------------------------------------------------------
+  // 10. EXTERNAL LINK SAFETY
+  // ----------------------------------------------------------
 
   document.querySelectorAll('a[target="_blank"]').forEach((link) => {
     link.setAttribute("rel", "noopener noreferrer");
   });
+
+
+  // ----------------------------------------------------------
+  // 11. CONFIGURATION STATUS
+  // ----------------------------------------------------------
+
+  if (!db) {
+    console.warn(
+      "KGH: Supabase client unavailable. Check script order and supabase-config.js."
+    );
+  } else {
+    console.info("KGH: Website interactions initialized.");
+  }
 
 });
