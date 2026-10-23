@@ -314,3 +314,21 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
+// KGH logo intro
+document.addEventListener("DOMContentLoaded", () => {
+    const intro = document.getElementById("siteIntro");
+
+    if (!intro) return;
+
+    const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    window.setTimeout(() => {
+        intro.classList.add("is-leaving");
+    }, reducedMotion ? 200 : 1900);
+
+    window.setTimeout(() => {
+        intro.remove();
+    }, reducedMotion ? 500 : 2700);
+});

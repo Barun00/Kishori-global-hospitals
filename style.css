@@ -2500,3 +2500,207 @@ article[id] {
     transform: none;
   }
 }
+/* KGH LOGO INTRO */
+.site-intro {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: grid;
+    place-items: center;
+    background: #fff;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity .7s ease, visibility .7s ease;
+}
+
+.site-intro.is-leaving {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.site-intro-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.site-intro-logo {
+    width: 160px;
+    height: 160px;
+    object-fit: contain;
+    opacity: 0;
+    transform: scale(.7);
+    animation: kgh-logo-in .9s ease .1s forwards;
+}
+
+.site-intro-content h2 {
+    margin: 15px 0 0;
+    color: #0F2D4D;
+    font-family: Poppins, sans-serif;
+    font-size: 23px;
+    font-weight: 800;
+    letter-spacing: 3px;
+}
+
+.site-intro-content p {
+    margin-top: 7px;
+    color: #3A9EBB;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 5px;
+}
+
+.intro-progress {
+    width: 140px;
+    height: 3px;
+    margin-top: 24px;
+    overflow: hidden;
+    border-radius: 5px;
+    background: #E6F3F7;
+}
+
+.intro-progress span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: #3A9EBB;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: kgh-progress 1.4s ease forwards;
+}
+
+@keyframes kgh-logo-in {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes kgh-progress {
+    to {
+        transform: scaleX(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .site-intro-logo,
+    .intro-progress span {
+        animation-duration: .01ms !important;
+    }
+}
+/* KISHORI GLOBAL HOSPITAL POSTER */
+
+.hero-image.hospital-poster {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    min-width: 0;
+    flex: 1;
+
+    padding: 8px;
+
+    background: linear-gradient(
+        145deg,
+        #ffffff,
+        #edf8fb
+    );
+
+    border: 1px solid rgba(58, 158, 187, 0.2);
+    border-radius: 28px;
+
+    box-shadow: 0 22px 55px rgba(15, 45, 77, 0.12);
+}
+
+.hero-image.hospital-poster img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+    max-height: 680px;
+
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+
+    border-radius: 20px;
+
+    animation: none;
+    box-shadow: none;
+}
+
+@media (max-width: 850px) {
+    .hero-image.hospital-poster {
+        width: 100%;
+        max-width: 560px;
+        margin: 10px auto 0;
+        border-radius: 22px;
+    }
+
+    .hero-image.hospital-poster img {
+        border-radius: 16px;
+    }
+}
+/* Correct poster sizing; preserve existing hero animation */
+
+.hero-flex {
+  display: flex;
+  align-items: center;
+  gap: 65px;
+}
+
+.hero-text {
+  flex: 1.08;
+  min-width: 0;
+}
+
+.hero-image {
+  position: relative;
+  flex: 0.92;
+  min-width: 0;
+  animation: slideRight 0.85s ease both;
+}
+
+.hero-image img.hero-poster {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 28px;
+  box-shadow: var(--shadow-lg);
+  animation: float 5s ease-in-out infinite;
+}
+
+@media (max-width: 850px) {
+  .hero-flex {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 35px;
+  }
+
+  .hero-text,
+  .hero-image {
+    width: 100%;
+    flex: auto;
+    min-width: 0;
+  }
+
+  .hero-image {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-image {
+    animation: none;
+  }
+
+  .hero-image img.hero-poster {
+    animation: none;
+  }
+}
