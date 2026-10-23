@@ -2704,3 +2704,24 @@ article[id] {
     animation: none;
   }
 }
+/* Backend form feedback */
+.form-message.form-success {
+  padding: 12px 14px;
+  color: #146C43;
+  background: #EAF7EF;
+  border: 1px solid #B9E5CA;
+  border-radius: 10px;
+}
+
+.form-message.form-error {
+  padding: 12px 14px;
+  color: #9B1C27;
+  background: #FFF0F0;
+  border: 1px solid #F3C3C7;
+  border-radius: 10px;
+}
+
+.form-submit:disabled {
+  opacity: .65;
+  cursor: wait;
+}
