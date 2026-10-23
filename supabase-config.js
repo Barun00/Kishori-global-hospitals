@@ -1,4 +1,7 @@
-/* KISHORI GLOBAL HOSPITAL — SUPABASE CONNECTION */
+/* =====================================================
+   KISHORI GLOBAL HOSPITAL
+   Supabase client configuration
+   ===================================================== */
 
 (function () {
   "use strict";
@@ -7,31 +10,33 @@
     "https://vvfatzkkhkwaxszjidun.supabase.co";
 
   const SUPABASE_PUBLIC_KEY =
-    sb_publishable_99Ke5fwz7jGHOpjiZocBrA_0_DSAFkj;
+    "sb_publishable_99Ke5fwz7jGHOpjiZocBrA_0_DSAFkj";
 
-  if (!window.supabase?.createClient) {
+  if (
+    !window.supabase ||
+    typeof window.supabase.createClient !== "function"
+  ) {
     window.kghSupabase = null;
-    console.error("Supabase SDK did not load.");
+    console.error("KGH: Supabase SDK failed to load.");
     return;
   }
 
-  if (SUPABASE_PUBLIC_KEY.includes("PASTE_YOUR")) {
-    window.kghSupabase = null;
-    console.warn("Supabase public key has not been configured.");
-    return;
-  }
-
-  window.kghSupabase = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLIC_KEY,
-    {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        detectSessionInUrl: true
+  try {
+    window.kghSupabase = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLIC_KEY,
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true
+        }
       }
-    }
-  );
+    );
 
-  console.info("Kishori Global Hospital backend connected.");
+    console.info("KGH: Supabase client initialized.");
+  } catch (error) {
+    window.kghSupabase = null;
+    console.error("KGH: Supabase initialization failed.");
+  }
 })();

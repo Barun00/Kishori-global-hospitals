@@ -1,489 +1,561 @@
-/* KGH ADMIN — Supabase Auth + appointment/enquiry management */
+/* ============================================================
+   KISHORI GLOBAL HOSPITAL
+   Website interactions + Supabase appointment/contact forms
+   Preserves existing homepage behaviour and layout.
+   ============================================================ */
+
 document.addEventListener("DOMContentLoaded", () => {
   "use strict";
 
   const db = window.kghSupabase;
 
-  const loginSection = document.getElementById("loginSection");
-  const dashboard = document.getElementById("dashboard");
-  const loginForm = document.getElementById("adminLoginForm");
-  const loginStatus = document.getElementById("loginStatus");
-  const dashboardStatus = document.getElementById("dashboardStatus");
 
-  let adminUser = null;
-  let activeTab = "appointments";
+  // ----------------------------------------------------------
+  // 1. MOBILE NAVIGATION
+  // ----------------------------------------------------------
 
-  const appointmentStates = [
-    "pending", "confirmed", "rescheduled", "completed", "cancelled"
-  ];
+  const menuToggle = document.getElementById("menuToggle");
+  const navMenu = document.getElementById("navMenu");
 
-  const messageStates = [
-    "new", "in_progress", "resolved", "archived"
-  ];
+  function closeMenu() {
+    if (!menuToggle || !navMenu) return;
 
-  function esc(value) {
-    return String(value ?? "").replace(/[&<>"']/g, (c) => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;"
-    })[c]);
+    navMenu.classList.remove("show");
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.setAttribute("aria-label", "Open navigation menu");
+
+    const icon = menuToggle.querySelector("i");
+
+    if (icon) {
+      icon.classList.remove("fa-xmark");
+      icon.classList.add("fa-bars");
+    }
   }
 
-  function message(element, text, type = "") {
+  if (menuToggle && navMenu) {
+    menuToggle.addEventListener("click", () => {
+      const isOpen = navMenu.classList.toggle("show");
+
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuToggle.setAttribute(
+        "aria-label",
+        isOpen ? "Close navigation menu" : "Open navigation menu"
+      );
+
+      const icon = menuToggle.querySelector("i");
+
+      if (icon) {
+        icon.classList.toggle("fa-bars", !isOpen);
+        icon.classList.toggle("fa-xmark", isOpen);
+      }
+    });
+
+    navMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", closeMenu);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeMenu();
+    });
+
+    document.addEventListener("click", (event) => {
+      if (
+        !navMenu.contains(event.target) &&
+        !menuToggle.contains(event.target)
+      ) {
+        closeMenu();
+      }
+    });
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 850) closeMenu();
+    });
+  }
+
+
+  // ----------------------------------------------------------
+  // 2. SCROLL REVEAL ANIMATIONS
+  // ----------------------------------------------------------
+
+  const revealElements = document.querySelectorAll(".reveal");
+
+  if ("IntersectionObserver" in window) {
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("active");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.08,
+        rootMargin: "0px 0px -30px 0px"
+      }
+    );
+
+    revealElements.forEach((element) => {
+      revealObserver.observe(element);
+    });
+
+    // Fallback: don't leave initially visible content hidden.
+    window.setTimeout(() => {
+      revealElements.forEach((element) => {
+        const rect = element.getBoundingClientRect();
+
+        if (rect.top < window.innerHeight + 100) {
+          element.classList.add("active");
+        }
+      });
+    }, 1500);
+
+  } else {
+    revealElements.forEach((element) => {
+      element.classList.add("active");
+    });
+  }
+
+
+  // ----------------------------------------------------------
+  // 3. ACTIVE NAVIGATION LINKS
+  // ----------------------------------------------------------
+
+  const navLinks = document.querySelectorAll(
+    '#navMenu a[href^="#"]'
+  );
+
+  const sections = document.querySelectorAll(
+    "main section[id]"
+  );
+
+  function setActiveLink(sectionId) {
+    navLinks.forEach((link) => {
+      link.classList.toggle(
+        "active",
+        link.getAttribute("href") === `#${sectionId}`
+      );
+    });
+  }
+
+  if ("IntersectionObserver" in window && sections.length > 0) {
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        const visibleSections = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort(
+            (a, b) => b.intersectionRatio - a.intersectionRatio
+          );
+
+        if (visibleSections.length > 0) {
+          setActiveLink(visibleSections[0].target.id);
+        }
+      },
+      {
+        rootMargin: "-25% 0px -60% 0px",
+        threshold: [0, 0.15, 0.3, 0.5]
+      }
+    );
+
+    sections.forEach((section) => {
+      sectionObserver.observe(section);
+    });
+  }
+
+  navLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      const sectionId = link.getAttribute("href").slice(1);
+
+      if (sectionId) setActiveLink(sectionId);
+    });
+  });
+
+
+  // ----------------------------------------------------------
+  // 4. AUTOMATIC COPYRIGHT YEAR
+  // ----------------------------------------------------------
+
+  const currentYear = document.getElementById("currentYear");
+
+  if (currentYear) {
+    currentYear.textContent = new Date().getFullYear();
+  }
+
+
+  // ----------------------------------------------------------
+  // 5. FORM UTILITIES
+  // ----------------------------------------------------------
+
+  function getLocalDateString() {
+    const today = new Date();
+
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
+
+  function isValidPhone(value) {
+    const digits = String(value || "").replace(/\D/g, "");
+
+    return digits.length >= 10 && digits.length <= 15;
+  }
+
+  function showFormMessage(element, text, type = "") {
     if (!element) return;
+
     element.textContent = text;
-    element.classList.remove("kadmin-error", "kadmin-success");
 
-    if (type === "error") element.classList.add("kadmin-error");
-    if (type === "success") element.classList.add("kadmin-success");
+    element.classList.remove(
+      "form-success",
+      "form-error"
+    );
+
+    if (type === "success") {
+      element.classList.add("form-success");
+    }
+
+    if (type === "error") {
+      element.classList.add("form-error");
+    }
   }
 
-  function dateText(value) {
-    if (!value) return "—";
-    const d = new Date(value + (String(value).length === 10 ? "T00:00:00" : ""));
-    return Number.isNaN(d.getTime())
-      ? String(value)
-      : d.toLocaleDateString("en-IN", {
-          day: "2-digit", month: "short", year: "numeric"
-        });
+  function setFormBusy(form, busy) {
+    const button = form.querySelector('button[type="submit"]');
+
+    if (!button) return;
+
+    if (busy) {
+      if (!button.dataset.originalHTML) {
+        button.dataset.originalHTML = button.innerHTML;
+      }
+
+      button.disabled = true;
+      button.textContent = "Submitting...";
+
+    } else {
+      button.disabled = false;
+
+      if (button.dataset.originalHTML) {
+        button.innerHTML = button.dataset.originalHTML;
+        delete button.dataset.originalHTML;
+      }
+    }
   }
 
-  function dateTimeText(value) {
-    if (!value) return "—";
-    const d = new Date(value);
-    return Number.isNaN(d.getTime())
-      ? "—"
-      : d.toLocaleString("en-IN", {
-          day: "2-digit", month: "short", year: "numeric",
-          hour: "2-digit", minute: "2-digit"
-        });
-  }
-
-  function stateOptions(current, values) {
-    return values.map((value) => `
-      <option value="${value}" ${value === current ? "selected" : ""}>
-        ${esc(value.replace("_", " ").replace(/\b\w/g, c => c.toUpperCase()))}
-      </option>
-    `).join("");
-  }
-
-  function showLogin() {
-    loginSection.hidden = false;
-    dashboard.hidden = true;
-  }
-
-  function showDashboard(user) {
-    adminUser = user;
-    loginSection.hidden = true;
-    dashboard.hidden = false;
-    document.getElementById("signedInEmail").textContent =
-      user.email || "Authorised administrator";
-  }
-
-  async function verifyAdmin(user) {
-    const { data, error } = await db
-      .from("admin_users")
-      .select("user_id")
-      .eq("user_id", user.id)
-      .maybeSingle();
-
-    if (error || !data) {
-      await db.auth.signOut();
-      adminUser = null;
-      showLogin();
-
-      message(
-        loginStatus,
-        "This account is not authorised for hospital administration. Ask the system administrator to grant access.",
+  function showBackendUnavailable(element, formType) {
+    if (!db) {
+      showFormMessage(
+        element,
+        `${formType} service is not connected. Please contact the hospital directly.`,
         "error"
       );
 
-      return false;
+      return true;
     }
 
-    showDashboard(user);
-    await refreshAll();
-    return true;
+    return false;
   }
 
 
-  // ---------- LOGIN ----------
+  // ----------------------------------------------------------
+  // 6. APPOINTMENT DATE VALIDATION
+  // ----------------------------------------------------------
+
+  const appointmentDate = document.getElementById(
+    "appointmentDate"
+  );
+
+  if (appointmentDate) {
+    appointmentDate.min = getLocalDateString();
+  }
+
+
+  // ----------------------------------------------------------
+  // 7. APPOINTMENT FORM -> SUPABASE
+  // ----------------------------------------------------------
+
+  const appointmentForm = document.getElementById(
+    "appointmentForm"
+  );
+
+  const appointmentMessage = document.getElementById(
+    "appointmentMessage"
+  );
+
+  if (appointmentForm && appointmentMessage) {
+    appointmentForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      showFormMessage(appointmentMessage, "");
+
+      if (!appointmentForm.checkValidity()) {
+        appointmentForm.reportValidity();
+        return;
+      }
+
+      const patientName = document
+        .getElementById("patientName")
+        .value.trim();
+
+      const patientPhone = document
+        .getElementById("patientPhone")
+        .value.trim();
+
+      const department = document
+        .getElementById("appointmentDepartment")
+        .value;
+
+      const preferredDate = appointmentDate.value;
+
+      const preferredTime = document
+        .getElementById("appointmentTime")
+        ?.value || "";
+
+      const preferredDoctor = document
+        .getElementById("doctorName")
+        .value.trim();
+
+      const visitReason = document
+        .getElementById("visitReason")
+        .value.trim();
+
+      if (!isValidPhone(patientPhone)) {
+        showFormMessage(
+          appointmentMessage,
+          "Please enter a valid phone number containing 10 to 15 digits.",
+          "error"
+        );
+
+        document.getElementById("patientPhone").focus();
+        return;
+      }
+
+      if (preferredDate < getLocalDateString()) {
+        showFormMessage(
+          appointmentMessage,
+          "Please select today or a future appointment date.",
+          "error"
+        );
+
+        appointmentDate.focus();
+        return;
+      }
+
+      if (showBackendUnavailable(
+        appointmentMessage,
+        "Online appointment"
+      )) {
+        return;
+      }
+
+      setFormBusy(appointmentForm, true);
+
+      try {
+        const { error } = await db
+          .from("appointments")
+          .insert({
+            patient_name: patientName,
+            phone: patientPhone,
+            department: department,
+            preferred_doctor: preferredDoctor,
+            preferred_date: preferredDate,
+            preferred_time: preferredTime,
+            visit_reason: visitReason,
+            consent: true
+          });
+
+        if (error) {
+          console.error(
+            "Appointment submission failed:",
+            error.code || "UNKNOWN_ERROR"
+          );
+
+          showFormMessage(
+            appointmentMessage,
+            "We could not save your appointment request. Please call reception at +91 7077772231.",
+            "error"
+          );
+
+          return;
+        }
+
+        appointmentForm.reset();
+
+        if (appointmentDate) {
+          appointmentDate.min = getLocalDateString();
+        }
+
+        showFormMessage(
+          appointmentMessage,
+          "Your appointment request has been received. It is not yet a confirmed booking. Please contact reception to confirm availability.",
+          "success"
+        );
+
+      } catch (error) {
+        console.error("Appointment service unavailable.");
+
+        showFormMessage(
+          appointmentMessage,
+          "The booking service is temporarily unavailable. Please call the hospital.",
+          "error"
+        );
+
+      } finally {
+        setFormBusy(appointmentForm, false);
+      }
+    });
+  }
+
+
+  // ----------------------------------------------------------
+  // 8. CONTACT FORM -> SUPABASE
+  // ----------------------------------------------------------
+
+  const contactForm = document.getElementById("contactForm");
+
+  const contactMessageStatus = document.getElementById(
+    "contactMessageStatus"
+  );
+
+  if (contactForm && contactMessageStatus) {
+    contactForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      showFormMessage(contactMessageStatus, "");
+
+      if (!contactForm.checkValidity()) {
+        contactForm.reportValidity();
+        return;
+      }
+
+      const name = document
+        .getElementById("contactName")
+        .value.trim();
+
+      const phone = document
+        .getElementById("contactPhone")
+        .value.trim();
+
+      const email = document
+        .getElementById("contactEmail")
+        .value.trim();
+
+      const category = document
+        .getElementById("enquiryCategory")
+        .value;
+
+      const messageText = document
+        .getElementById("contactMessage")
+        .value.trim();
+
+      if (!isValidPhone(phone)) {
+        showFormMessage(
+          contactMessageStatus,
+          "Please enter a valid phone number containing 10 to 15 digits.",
+          "error"
+        );
+
+        document.getElementById("contactPhone").focus();
+        return;
+      }
+
+      if (showBackendUnavailable(
+        contactMessageStatus,
+        "Online enquiry"
+      )) {
+        return;
+      }
+
+      setFormBusy(contactForm, true);
+
+      try {
+        const { error } = await db
+          .from("contact_messages")
+          .insert({
+            name: name,
+            phone: phone,
+            email: email,
+            category: category,
+            message: messageText,
+            consent: true
+          });
+
+        if (error) {
+          console.error(
+            "Contact submission failed:",
+            error.code || "UNKNOWN_ERROR"
+          );
+
+          showFormMessage(
+            contactMessageStatus,
+            "We could not save your enquiry. Please email kishoriglobalhospitals@gmail.com or contact reception.",
+            "error"
+          );
+
+          return;
+        }
+
+        contactForm.reset();
+
+        showFormMessage(
+          contactMessageStatus,
+          "Your enquiry has been received for authorised hospital staff to review.",
+          "success"
+        );
+
+      } catch (error) {
+        console.error("Contact service unavailable.");
+
+        showFormMessage(
+          contactMessageStatus,
+          "The enquiry service is temporarily unavailable. Please contact the hospital by phone or email.",
+          "error"
+        );
+
+      } finally {
+        setFormBusy(contactForm, false);
+      }
+    });
+  }
+
+
+  // ----------------------------------------------------------
+  // 9. FAQ ACCESSIBILITY
+  // ----------------------------------------------------------
+
+  document.querySelectorAll(".faq-item").forEach((item) => {
+    const summary = item.querySelector("summary");
+
+    if (summary) {
+      summary.setAttribute(
+        "aria-label",
+        summary.textContent.trim()
+      );
+    }
+  });
+
+
+  // ----------------------------------------------------------
+  // 10. EXTERNAL LINK SAFETY
+  // ----------------------------------------------------------
+
+  document.querySelectorAll('a[target="_blank"]').forEach((link) => {
+    link.setAttribute("rel", "noopener noreferrer");
+  });
+
+
+  // ----------------------------------------------------------
+  // 11. CONFIGURATION STATUS
+  // ----------------------------------------------------------
 
   if (!db) {
-    message(
-      loginStatus,
-      "Backend is not configured. Check supabase-config.js and the Supabase SDK script.",
-      "error"
+    console.warn(
+      "KGH: Supabase client unavailable. Check script order and supabase-config.js."
     );
+  } else {
+    console.info("KGH: Website interactions initialized.");
   }
 
-  loginForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    message(loginStatus, "");
-
-    if (!db) {
-      message(loginStatus, "Supabase is not configured.", "error");
-      return;
-    }
-
-    const button = document.getElementById("loginButton");
-    button.disabled = true;
-    button.textContent = "Signing in...";
-
-    try {
-      const email = document.getElementById("adminEmail").value.trim();
-      const password = document.getElementById("adminPassword").value;
-
-      const { data, error } = await db.auth.signInWithPassword({
-        email,
-        password
-      });
-
-      if (error || !data.user) {
-        message(
-          loginStatus,
-          "Sign-in failed. Check your email, password and Supabase Auth settings.",
-          "error"
-        );
-        return;
-      }
-
-      await verifyAdmin(data.user);
-    } catch (error) {
-      message(loginStatus, "Authentication service is unavailable.", "error");
-    } finally {
-      button.disabled = false;
-      button.innerHTML = '<i class="fa-solid fa-lock"></i> Sign In';
-    }
-  });
-
-
-  // ---------- DASHBOARD COUNTS ----------
-
-  async function count(table, column, value) {
-    let query = db.from(table).select("id", {
-      count: "exact", head: true
-    });
-
-    if (column) query = query.eq(column, value);
-
-    const { count: total, error } = await query;
-    return error ? null : (total ?? 0);
-  }
-
-  async function loadStats() {
-    const [total, pending, newEnquiries] = await Promise.all([
-      count("appointments"),
-      count("appointments", "status", "pending"),
-      count("contact_messages", "status", "new")
-    ]);
-
-    document.getElementById("totalAppointments").textContent =
-      total ?? "—";
-    document.getElementById("pendingAppointments").textContent =
-      pending ?? "—";
-    document.getElementById("newMessages").textContent =
-      newEnquiries ?? "—";
-  }
-
-
-  // ---------- APPOINTMENTS ----------
-
-  async function loadAppointments() {
-    const tbody = document.getElementById("appointmentsTable");
-
-    tbody.innerHTML = `
-      <tr><td colspan="7">Loading appointment requests...</td></tr>
-    `;
-
-    const { data, error } = await db
-      .from("appointments")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(200);
-
-    if (error) {
-      tbody.innerHTML = `
-        <tr><td colspan="7">Could not load appointments. Check the schema and RLS policies.</td></tr>
-      `;
-      return false;
-    }
-
-    if (!data?.length) {
-      tbody.innerHTML = `
-        <tr><td colspan="7">No appointment requests received yet.</td></tr>
-      `;
-      return true;
-    }
-
-    tbody.innerHTML = data.map((r) => `
-      <tr data-id="${esc(r.id)}">
-        <td>
-          <strong>${esc(r.patient_name)}</strong><br>
-          <span class="kadmin-muted">${esc(dateTimeText(r.created_at))}</span>
-          ${r.visit_reason
-            ? `<br><span class="kadmin-muted">Reason: ${esc(r.visit_reason)}</span>`
-            : ""}
-        </td>
-
-        <td>
-          <a href="tel:${esc(r.phone)}">${esc(r.phone)}</a>
-        </td>
-
-        <td>
-          ${esc(r.department)}
-          ${r.preferred_doctor
-            ? `<br><span class="kadmin-muted">${esc(r.preferred_doctor)}</span>`
-            : ""}
-        </td>
-
-        <td>
-          ${esc(dateText(r.preferred_date))}
-          <br><span class="kadmin-muted">${esc(r.preferred_time || "Flexible")}</span>
-        </td>
-
-        <td>
-          <select class="record-status" aria-label="Appointment status">
-            ${stateOptions(r.status, appointmentStates)}
-          </select>
-        </td>
-
-        <td>
-          <textarea class="record-notes" maxlength="2000"
-            aria-label="Internal notes">${esc(r.admin_notes)}</textarea>
-        </td>
-
-        <td>
-          <button type="button" class="kadmin-button save-appointment"
-            data-id="${esc(r.id)}">Save</button>
-        </td>
-      </tr>
-    `).join("");
-
-    return true;
-  }
-
-  async function saveAppointment(button) {
-    const row = button.closest("tr");
-    const id = button.dataset.id;
-    const status = row.querySelector(".record-status").value;
-    const notes = row.querySelector(".record-notes").value.trim();
-
-    if (!appointmentStates.includes(status)) {
-      message(dashboardStatus, "Invalid appointment status.", "error");
-      return;
-    }
-
-    button.disabled = true;
-    button.textContent = "Saving...";
-
-    try {
-      const { error } = await db
-        .from("appointments")
-        .update({ status, admin_notes: notes })
-        .eq("id", id);
-
-      if (error) {
-        message(
-          dashboardStatus,
-          "Appointment update failed. Check administrator permissions.",
-          "error"
-        );
-        return;
-      }
-
-      message(dashboardStatus, "Appointment updated.", "success");
-      await loadStats();
-    } finally {
-      button.disabled = false;
-      button.textContent = "Save";
-    }
-  }
-
-  document.getElementById("appointmentsTable")
-    .addEventListener("click", (event) => {
-      const button = event.target.closest(".save-appointment");
-      if (button) saveAppointment(button);
-    });
-
-
-  // ---------- CONTACT ENQUIRIES ----------
-
-  async function loadMessages() {
-    const tbody = document.getElementById("messagesTable");
-
-    tbody.innerHTML = `
-      <tr><td colspan="7">Loading enquiries...</td></tr>
-    `;
-
-    const { data, error } = await db
-      .from("contact_messages")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(200);
-
-    if (error) {
-      tbody.innerHTML = `
-        <tr><td colspan="7">Could not load enquiries. Check the schema and permissions.</td></tr>
-      `;
-      return false;
-    }
-
-    if (!data?.length) {
-      tbody.innerHTML = `
-        <tr><td colspan="7">No contact enquiries received yet.</td></tr>
-      `;
-      return true;
-    }
-
-    tbody.innerHTML = data.map((r) => `
-      <tr data-id="${esc(r.id)}">
-        <td>
-          <strong>${esc(r.name)}</strong><br>
-          <span class="kadmin-muted">${esc(dateTimeText(r.created_at))}</span>
-        </td>
-
-        <td>
-          <a href="tel:${esc(r.phone)}">${esc(r.phone)}</a>
-          ${r.email ? `<br>${esc(r.email)}` : ""}
-        </td>
-
-        <td>${esc(r.category)}</td>
-        <td>${esc(r.message)}</td>
-
-        <td>
-          <select class="record-status" aria-label="Enquiry status">
-            ${stateOptions(r.status, messageStates)}
-          </select>
-        </td>
-
-        <td>
-          <textarea class="record-notes" maxlength="2000"
-            aria-label="Internal notes">${esc(r.admin_notes)}</textarea>
-        </td>
-
-        <td>
-          <button type="button" class="kadmin-button save-message"
-            data-id="${esc(r.id)}">Save</button>
-        </td>
-      </tr>
-    `).join("");
-
-    return true;
-  }
-
-  async function saveMessage(button) {
-    const row = button.closest("tr");
-    const status = row.querySelector(".record-status").value;
-    const notes = row.querySelector(".record-notes").value.trim();
-
-    if (!messageStates.includes(status)) {
-      message(dashboardStatus, "Invalid enquiry status.", "error");
-      return;
-    }
-
-    button.disabled = true;
-    button.textContent = "Saving...";
-
-    try {
-      const { error } = await db
-        .from("contact_messages")
-        .update({
-          status,
-          admin_notes: notes
-        })
-        .eq("id", button.dataset.id);
-
-      if (error) {
-        message(
-          dashboardStatus,
-          "Enquiry update failed. Check administrator permissions.",
-          "error"
-        );
-        return;
-      }
-
-      message(dashboardStatus, "Enquiry updated.", "success");
-      await loadStats();
-    } finally {
-      button.disabled = false;
-      button.textContent = "Save";
-    }
-  }
-
-  document.getElementById("messagesTable")
-    .addEventListener("click", (event) => {
-      const button = event.target.closest(".save-message");
-      if (button) saveMessage(button);
-    });
-
-
-  // ---------- TABS + REFRESH ----------
-
-  async function refreshAll() {
-    message(dashboardStatus, "Refreshing dashboard...");
-    await Promise.all([
-      loadStats(),
-      loadAppointments(),
-      loadMessages()
-    ]);
-    message(dashboardStatus, "Dashboard is up to date.", "success");
-  }
-
-  document.querySelectorAll(".kadmin-tab").forEach((button) => {
-    button.addEventListener("click", () => {
-      activeTab = button.dataset.tab;
-
-      document.querySelectorAll(".kadmin-tab").forEach((tab) => {
-        tab.classList.toggle("active", tab === button);
-      });
-
-      document.getElementById("appointmentsPanel").hidden =
-        activeTab !== "appointments";
-      document.getElementById("messagesPanel").hidden =
-        activeTab !== "messages";
-
-      message(dashboardStatus, "");
-    });
-  });
-
-  document.getElementById("refreshButton").addEventListener(
-    "click",
-    refreshAll
-  );
-
-
-  // ---------- SIGN OUT ----------
-
-  document.getElementById("logoutButton").addEventListener(
-    "click",
-    async () => {
-      await db.auth.signOut();
-      adminUser = null;
-      showLogin();
-    }
-  );
-
-
-  // ---------- RESTORE SESSION ----------
-
-  async function init() {
-    if (!db) {
-      showLogin();
-      return;
-    }
-
-    const { data, error } = await db.auth.getSession();
-
-    if (error || !data.session?.user) {
-      showLogin();
-      return;
-    }
-
-    await verifyAdmin(data.session.user);
-  }
-
-  init();
 });
